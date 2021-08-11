@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="currency", uniqueConstraints={@ORM\UniqueConstraint(name="currency_name_UNIQUE", columns={"currency_name"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CurrencyRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Currency
 {
@@ -35,10 +37,7 @@ class Currency
      */
     private $symbol;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -51,36 +50,28 @@ class Currency
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
-    public function getCurrencyName(): string
+    public function getCurrencyName(): ?string
     {
         return $this->currencyName;
     }
 
-    /**
-     * @param string $currencyName
-     */
-    public function setCurrencyName(string $currencyName): void
+    public function setCurrencyName(string $currencyName): self
     {
         $this->currencyName = $currencyName;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSymbol(): ?string
     {
         return $this->symbol;
     }
 
-    /**
-     * @param string|null $symbol
-     */
-    public function setSymbol(?string $symbol): void
+    public function setSymbol(?string $symbol): self
     {
         $this->symbol = $symbol;
+
+        return $this;
     }
 
 }

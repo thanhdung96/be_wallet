@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="wallet", indexes={@ORM\Index(name="wallet_account_id_fk", columns={"account_id"}), @ORM\Index(name="wallet_currency_id_fk_idx", columns={"currency_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=WalletRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Wallet
 {
@@ -97,10 +99,7 @@ class Wallet
      */
     private $currency;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -113,68 +112,52 @@ class Wallet
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getColor(): ?string
     {
         return $this->color;
     }
 
-    /**
-     * @param string|null $color
-     */
-    public function setColor(?string $color): void
+    public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getInitialAmount(): int
+    public function getInitialAmount(): ?int
     {
         return $this->initialAmount;
     }
 
-    /**
-     * @param int $initialAmount
-     */
-    public function setInitialAmount(int $initialAmount): void
+    public function setInitialAmount(int $initialAmount): self
     {
         $this->initialAmount = $initialAmount;
+
+        return $this;
     }
 
     /**
@@ -185,92 +168,76 @@ class Wallet
         return $this->active;
     }
 
-    /**
-     * @param bool $active
-     */
-    public function setActive(bool $active): void
+    public function setActive(bool $active): self
     {
         $this->active = $active;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getIcon(): int
+    public function getIcon(): ?int
     {
         return $this->icon;
     }
 
-    /**
-     * @param int $icon
-     */
-    public function setIcon(int $icon): void
+    public function setIcon(int $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated(): \DateTime
+    public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created): void
+    public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getModified(): \DateTime
+    public function getModified(): ?\DateTimeInterface
     {
         return $this->modified;
     }
 
-    /**
-     * @param \DateTime $modified
-     */
-    public function setModified(\DateTime $modified): void
+    public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
     }
 
-    /**
-     * @return \Account
-     */
-    public function getAccount(): \Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    /**
-     * @param \Account $account
-     */
-    public function setAccount(\Account $account): void
+    public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
     }
 
-    /**
-     * @return \Currency
-     */
-    public function getCurrency(): \Currency
+    public function getCurrency(): ?Currency
     {
         return $this->currency;
     }
 
-    /**
-     * @param \Currency $currency
-     */
-    public function setCurrency(\Currency $currency): void
+    public function setCurrency(?Currency $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
+    }
+
+    public function getActive(): ?bool
+    {
+        return $this->active;
     }
 
 

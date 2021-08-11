@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="default_category")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=DefaultCategoryRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class DefaultCategory
 {
@@ -21,10 +23,7 @@ class DefaultCategory
      */
     private $id;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -37,100 +36,76 @@ class DefaultCategory
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getColor(): ?string
     {
         return $this->color;
     }
 
-    /**
-     * @param string|null $color
-     */
-    public function setColor(?string $color): void
+    public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getType(): int
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType(int $type): void
+    public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getActive(): int
+    public function getActive(): ?int
     {
         return $this->active;
     }
 
-    /**
-     * @param int $active
-     */
-    public function setActive(int $active): void
+    public function setActive(int $active): self
     {
         $this->active = $active;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getOrdering(): int
+    public function getOrdering(): ?int
     {
         return $this->ordering;
     }
 
-    /**
-     * @param int $ordering
-     */
-    public function setOrdering(int $ordering): void
+    public function setOrdering(int $ordering): self
     {
         $this->ordering = $ordering;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getIcon(): int
+    public function getIcon(): ?int
     {
         return $this->icon;
     }
 
-    /**
-     * @param int $icon
-     */
-    public function setIcon(int $icon): void
+    public function setIcon(int $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
     }
 
     /**

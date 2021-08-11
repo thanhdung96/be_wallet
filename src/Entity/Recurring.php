@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="recurring", indexes={@ORM\Index(name="recurring___fk_account", columns={"account_id"}), @ORM\Index(name="recurring___fk_transfer_wallet", columns={"transfer_wallet_id"}), @ORM\Index(name="recurring___fk_category", columns={"category_id"}), @ORM\Index(name="recurring___fk_wallet", columns={"wallet_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=RecurringRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Recurring
 {
@@ -152,10 +154,7 @@ class Recurring
      */
     private $wallet;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -168,276 +167,208 @@ class Recurring
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNote(): ?string
     {
         return $this->note;
     }
 
-    /**
-     * @param string|null $note
-     */
-    public function setNote(?string $note): void
+    public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMemo(): ?string
     {
         return $this->memo;
     }
 
-    /**
-     * @param string|null $memo
-     */
-    public function setMemo(?string $memo): void
+    public function setMemo(?string $memo): self
     {
         $this->memo = $memo;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getType(): int
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType(int $type): void
+    public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getRecurringType(): int
+    public function getRecurringType(): ?int
     {
         return $this->recurringType;
     }
 
-    /**
-     * @param int $recurringType
-     */
-    public function setRecurringType(int $recurringType): void
+    public function setRecurringType(int $recurringType): self
     {
         $this->recurringType = $recurringType;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getRepeatType(): int
+    public function getRepeatType(): ?int
     {
         return $this->repeatType;
     }
 
-    /**
-     * @param int $repeatType
-     */
-    public function setRepeatType(int $repeatType): void
+    public function setRepeatType(int $repeatType): self
     {
         $this->repeatType = $repeatType;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getRepeatDate(): ?string
     {
         return $this->repeatDate;
     }
 
-    /**
-     * @param string|null $repeatDate
-     */
-    public function setRepeatDate(?string $repeatDate): void
+    public function setRepeatDate(?string $repeatDate): self
     {
         $this->repeatDate = $repeatDate;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getIncrement(): int
+    public function getIncrement(): ?int
     {
         return $this->increment;
     }
 
-    /**
-     * @param int $increment
-     */
-    public function setIncrement(int $increment): void
+    public function setIncrement(int $increment): self
     {
         $this->increment = $increment;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getDateTime(): ?int
     {
         return $this->dateTime;
     }
 
-    /**
-     * @param int|null $dateTime
-     */
-    public function setDateTime(?int $dateTime): void
+    public function setDateTime(?int $dateTime): self
     {
         $this->dateTime = $dateTime;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getUntilTime(): ?int
     {
         return $this->untilTime;
     }
 
-    /**
-     * @param int|null $untilTime
-     */
-    public function setUntilTime(?int $untilTime): void
+    public function setUntilTime(?int $untilTime): self
     {
         $this->untilTime = $untilTime;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLastUpdateTime(): ?int
     {
         return $this->lastUpdateTime;
     }
 
-    /**
-     * @param int|null $lastUpdateTime
-     */
-    public function setLastUpdateTime(?int $lastUpdateTime): void
+    public function setLastUpdateTime(?int $lastUpdateTime): self
     {
         $this->lastUpdateTime = $lastUpdateTime;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getTransAmount(): int
+    public function getTransAmount(): ?int
     {
         return $this->transAmount;
     }
 
-    /**
-     * @param int $transAmount
-     */
-    public function setTransAmount(int $transAmount): void
+    public function setTransAmount(int $transAmount): self
     {
         $this->transAmount = $transAmount;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getIsFuture(): int
+    public function getIsFuture(): ?int
     {
         return $this->isFuture;
     }
 
-    /**
-     * @param int $isFuture
-     */
-    public function setIsFuture(int $isFuture): void
+    public function setIsFuture(int $isFuture): self
     {
         $this->isFuture = $isFuture;
+
+        return $this;
     }
 
-    /**
-     * @return \Account
-     */
-    public function getAccount(): \Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    /**
-     * @param \Account $account
-     */
-    public function setAccount(\Account $account): void
+    public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
     }
 
-    /**
-     * @return \Category
-     */
-    public function getCategory(): \Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    /**
-     * @param \Category $category
-     */
-    public function setCategory(\Category $category): void
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
     }
 
-    /**
-     * @return \Wallet
-     */
-    public function getTransferWallet(): \Wallet
+    public function getTransferWallet(): ?Wallet
     {
         return $this->transferWallet;
     }
 
-    /**
-     * @param \Wallet $transferWallet
-     */
-    public function setTransferWallet(\Wallet $transferWallet): void
+    public function setTransferWallet(?Wallet $transferWallet): self
     {
         $this->transferWallet = $transferWallet;
+
+        return $this;
     }
 
-    /**
-     * @return \Wallet
-     */
-    public function getWallet(): \Wallet
+    public function getWallet(): ?Wallet
     {
         return $this->wallet;
     }
 
-    /**
-     * @param \Wallet $wallet
-     */
-    public function setWallet(\Wallet $wallet): void
+    public function setWallet(?Wallet $wallet): self
     {
         $this->wallet = $wallet;
+
+        return $this;
     }
 
 

@@ -9,17 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="goalTrans", indexes={@ORM\Index(name="goalTrans_goal_id_fk", columns={"goal_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=GoaltransRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Goaltrans
 {
-    /**
-     * @return int
-     */
-    public function getId(): int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-
     /**
      * @param int $id
      */
@@ -28,84 +27,64 @@ class Goaltrans
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getDateTime(): ?int
     {
         return $this->dateTime;
     }
 
-    /**
-     * @param int|null $dateTime
-     */
-    public function setDateTime(?int $dateTime): void
+    public function setDateTime(?int $dateTime): self
     {
         $this->dateTime = $dateTime;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getType(): int
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType(int $type): void
+    public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNote(): ?string
     {
         return $this->note;
     }
 
-    /**
-     * @param string|null $note
-     */
-    public function setNote(?string $note): void
+    public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
     }
 
-    /**
-     * @return \Goal
-     */
-    public function getGoal(): \Goal
+    public function getGoal(): ?Goal
     {
         return $this->goal;
     }
 
-    /**
-     * @param \Goal $goal
-     */
-    public function setGoal(\Goal $goal): void
+    public function setGoal(?Goal $goal): self
     {
         $this->goal = $goal;
+
+        return $this;
     }
     /**
      * @var int

@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="category", indexes={@ORM\Index(name="category_account_id_fk", columns={"account_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=CategoryRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Category
 {
@@ -87,10 +89,7 @@ class Category
      */
     private $account;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -103,148 +102,112 @@ class Category
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getColor(): ?string
     {
         return $this->color;
     }
 
-    /**
-     * @param string|null $color
-     */
-    public function setColor(?string $color): void
+    public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getType(): int
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType(int $type): void
+    public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getActive(): int
+    public function getActive(): ?int
     {
         return $this->active;
     }
 
-    /**
-     * @param int $active
-     */
-    public function setActive(int $active): void
+    public function setActive(int $active): self
     {
         $this->active = $active;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getOrdering(): int
+    public function getOrdering(): ?int
     {
         return $this->ordering;
     }
 
-    /**
-     * @param int $ordering
-     */
-    public function setOrdering(int $ordering): void
+    public function setOrdering(int $ordering): self
     {
         $this->ordering = $ordering;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getIcon(): int
+    public function getIcon(): ?int
     {
         return $this->icon;
     }
 
-    /**
-     * @param int $icon
-     */
-    public function setIcon(int $icon): void
+    public function setIcon(int $icon): self
     {
         $this->icon = $icon;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated(): \DateTime
+    public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created): void
+    public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getModified(): \DateTime
+    public function getModified(): ?\DateTimeInterface
     {
         return $this->modified;
     }
 
-    /**
-     * @param \DateTime $modified
-     */
-    public function setModified(\DateTime $modified): void
+    public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
     }
 
-    /**
-     * @return \Account
-     */
-    public function getAccount(): \Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    /**
-     * @param \Account $account
-     */
-    public function setAccount(\Account $account): void
+    public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
     }
 
 

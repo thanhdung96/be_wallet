@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="trans", indexes={@ORM\Index(name="trans___fk_target_wallet", columns={"transfer_wallet_id"}), @ORM\Index(name="trans___fk_account", columns={"account_id"}), @ORM\Index(name="trans___fk_wallet", columns={"wallet_id"}), @ORM\Index(name="trans___fk_category", columns={"category_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=TransRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Trans
 {
@@ -138,10 +140,7 @@ class Trans
      */
     private $wallet;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -154,244 +153,184 @@ class Trans
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNote(): ?string
     {
         return $this->note;
     }
 
-    /**
-     * @param string|null $note
-     */
-    public function setNote(?string $note): void
+    public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMemo(): ?string
     {
         return $this->memo;
     }
 
-    /**
-     * @param string|null $memo
-     */
-    public function setMemo(?string $memo): void
+    public function setMemo(?string $memo): self
     {
         $this->memo = $memo;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getType(): int
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType(int $type): void
+    public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getDateTime(): ?int
     {
         return $this->dateTime;
     }
 
-    /**
-     * @param int|null $dateTime
-     */
-    public function setDateTime(?int $dateTime): void
+    public function setDateTime(?int $dateTime): self
     {
         $this->dateTime = $dateTime;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getFee(): ?int
     {
         return $this->fee;
     }
 
-    /**
-     * @param int|null $fee
-     */
-    public function setFee(?int $fee): void
+    public function setFee(?int $fee): self
     {
         $this->fee = $fee;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getTransAmount(): int
+    public function getTransAmount(): ?int
     {
         return $this->transAmount;
     }
 
-    /**
-     * @param int $transAmount
-     */
-    public function setTransAmount(int $transAmount): void
+    public function setTransAmount(int $transAmount): self
     {
         $this->transAmount = $transAmount;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getDebtId(): int
+    public function getDebtId(): ?int
     {
         return $this->debtId;
     }
 
-    /**
-     * @param int $debtId
-     */
-    public function setDebtId(int $debtId): void
+    public function setDebtId(int $debtId): self
     {
         $this->debtId = $debtId;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getDebtTransId(): int
+    public function getDebtTransId(): ?int
     {
         return $this->debtTransId;
     }
 
-    /**
-     * @param int $debtTransId
-     */
-    public function setDebtTransId(int $debtTransId): void
+    public function setDebtTransId(int $debtTransId): self
     {
         $this->debtTransId = $debtTransId;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated(): \DateTime
+    public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created): void
+    public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getModified(): \DateTime
+    public function getModified(): ?\DateTimeInterface
     {
         return $this->modified;
     }
 
-    /**
-     * @param \DateTime $modified
-     */
-    public function setModified(\DateTime $modified): void
+    public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
     }
 
-    /**
-     * @return \Account
-     */
-    public function getAccount(): \Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    /**
-     * @param \Account $account
-     */
-    public function setAccount(\Account $account): void
+    public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
     }
 
-    /**
-     * @return \Category
-     */
-    public function getCategory(): \Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    /**
-     * @param \Category $category
-     */
-    public function setCategory(\Category $category): void
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
     }
 
-    /**
-     * @return \Wallet
-     */
-    public function getTransferWallet(): \Wallet
+    public function getTransferWallet(): ?Wallet
     {
         return $this->transferWallet;
     }
 
-    /**
-     * @param \Wallet $transferWallet
-     */
-    public function setTransferWallet(\Wallet $transferWallet): void
+    public function setTransferWallet(?Wallet $transferWallet): self
     {
         $this->transferWallet = $transferWallet;
+
+        return $this;
     }
 
-    /**
-     * @return \Wallet
-     */
-    public function getWallet(): \Wallet
+    public function getWallet(): ?Wallet
     {
         return $this->wallet;
     }
 
-    /**
-     * @param \Wallet $wallet
-     */
-    public function setWallet(\Wallet $wallet): void
+    public function setWallet(?Wallet $wallet): self
     {
         $this->wallet = $wallet;
+
+        return $this;
     }
 
 

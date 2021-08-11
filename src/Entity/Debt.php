@@ -9,17 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="debt", indexes={@ORM\Index(name="debt_account_id_fk", columns={"account_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=DebtRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Debt
 {
-    /**
-     * @return int
-     */
-    public function getId(): int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-
     /**
      * @param int $id
      */
@@ -28,164 +27,124 @@ class Debt
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getLender(): ?string
     {
         return $this->lender;
     }
 
-    /**
-     * @param string|null $lender
-     */
-    public function setLender(?string $lender): void
+    public function setLender(?string $lender): self
     {
         $this->lender = $lender;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getColor(): ?string
     {
         return $this->color;
     }
 
-    /**
-     * @param string|null $color
-     */
-    public function setColor(?string $color): void
+    public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPay(): int
+    public function getPay(): ?int
     {
         return $this->pay;
     }
 
-    /**
-     * @param int $pay
-     */
-    public function setPay(int $pay): void
+    public function setPay(int $pay): self
     {
         $this->pay = $pay;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getDueDate(): ?int
     {
         return $this->dueDate;
     }
 
-    /**
-     * @param int|null $dueDate
-     */
-    public function setDueDate(?int $dueDate): void
+    public function setDueDate(?int $dueDate): self
     {
         $this->dueDate = $dueDate;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getLendDate(): ?int
     {
         return $this->lendDate;
     }
 
-    /**
-     * @param int|null $lendDate
-     */
-    public function setLendDate(?int $lendDate): void
+    public function setLendDate(?int $lendDate): self
     {
         $this->lendDate = $lendDate;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getStatus(): int
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    /**
-     * @param int $status
-     */
-    public function setStatus(int $status): void
+    public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getType(): int
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType(int $type): void
+    public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    /**
-     * @return \Account
-     */
-    public function getAccount(): \Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    /**
-     * @param \Account $account
-     */
-    public function setAccount(\Account $account): void
+    public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
     }
     /**
      * @var int

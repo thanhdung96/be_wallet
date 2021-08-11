@@ -9,17 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="goal", indexes={@ORM\Index(name="goal_account_id_fk", columns={"account_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=GoalRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Goal
 {
-    /**
-     * @return int
-     */
-    public function getId(): int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-
     /**
      * @param int $id
      */
@@ -28,148 +27,112 @@ class Goal
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getColor(): ?string
     {
         return $this->color;
     }
 
-    /**
-     * @param string|null $color
-     */
-    public function setColor(?string $color): void
+    public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSaved(): int
+    public function getSaved(): ?int
     {
         return $this->saved;
     }
 
-    /**
-     * @param int $saved
-     */
-    public function setSaved(int $saved): void
+    public function setSaved(int $saved): self
     {
         $this->saved = $saved;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getStatus(): int
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    /**
-     * @param int $status
-     */
-    public function setStatus(int $status): void
+    public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getExpectDate(): ?int
     {
         return $this->expectDate;
     }
 
-    /**
-     * @param int|null $expectDate
-     */
-    public function setExpectDate(?int $expectDate): void
+    public function setExpectDate(?int $expectDate): self
     {
         $this->expectDate = $expectDate;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getAchieveDate(): ?int
     {
         return $this->achieveDate;
     }
 
-    /**
-     * @param int|null $achieveDate
-     */
-    public function setAchieveDate(?int $achieveDate): void
+    public function setAchieveDate(?int $achieveDate): self
     {
         $this->achieveDate = $achieveDate;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getCurrency(): ?string
     {
         return $this->currency;
     }
 
-    /**
-     * @param string|null $currency
-     */
-    public function setCurrency(?string $currency): void
+    public function setCurrency(?string $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
     }
 
-    /**
-     * @return \Account
-     */
-    public function getAccount(): \Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    /**
-     * @param \Account $account
-     */
-    public function setAccount(\Account $account): void
+    public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
     }
     /**
      * @var int

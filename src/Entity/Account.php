@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="account", uniqueConstraints={@ORM\UniqueConstraint(name="email_UNIQUE", columns={"email"}), @ORM\UniqueConstraint(name="password_UNIQUE", columns={"password"})}, indexes={@ORM\Index(name="currency_fk_idx", columns={"currency_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=AccountRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Account
 {
@@ -80,10 +82,7 @@ class Account
      */
     private $currency;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -96,132 +95,100 @@ class Account
         $this->id = $id;
     }
 
-    /**
-     * @return string
-     */
-    public function getName(): string
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName(string $name): void
+    public function setName(string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getOrdering(): int
+    public function getOrdering(): ?int
     {
         return $this->ordering;
     }
 
-    /**
-     * @param int $ordering
-     */
-    public function setOrdering(int $ordering): void
+    public function setOrdering(int $ordering): self
     {
         $this->ordering = $ordering;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getBalance(): int
+    public function getBalance(): ?int
     {
         return $this->balance;
     }
 
-    /**
-     * @param int $balance
-     */
-    public function setBalance(int $balance): void
+    public function setBalance(int $balance): self
     {
         $this->balance = $balance;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getEmail(): string
+    public function getEmail(): ?string
     {
         return $this->email;
     }
 
-    /**
-     * @param string $email
-     */
-    public function setEmail(string $email): void
+    public function setEmail(string $email): self
     {
         $this->email = $email;
+
+        return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword(): string
+    public function getPassword(): ?string
     {
         return $this->password;
     }
 
-    /**
-     * @param string $password
-     */
-    public function setPassword(string $password): void
+    public function setPassword(string $password): self
     {
         $this->password = $password;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated(): \DateTime
+    public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created): void
+    public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getModified(): \DateTime
+    public function getModified(): ?\DateTimeInterface
     {
         return $this->modified;
     }
 
-    /**
-     * @param \DateTime $modified
-     */
-    public function setModified(\DateTime $modified): void
+    public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
     }
 
-    /**
-     * @return \Currency
-     */
-    public function getCurrency(): \Currency
+    public function getCurrency(): ?Currency
     {
         return $this->currency;
     }
 
-    /**
-     * @param \Currency $currency
-     */
-    public function setCurrency(\Currency $currency): void
+    public function setCurrency(?Currency $currency): self
     {
         $this->currency = $currency;
+
+        return $this;
     }
 
 }

@@ -9,17 +9,16 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="debtTrans", indexes={@ORM\Index(name="debtTrans_debt_id_fk", columns={"debt_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=DebttransRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Debttrans
 {
-    /**
-     * @return int
-     */
-    public function getId(): int
+
+    public function getId(): ?int
     {
         return $this->id;
     }
-
     /**
      * @param int $id
      */
@@ -28,84 +27,64 @@ class Debttrans
         $this->id = $id;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getDateTime(): ?int
     {
         return $this->dateTime;
     }
 
-    /**
-     * @param int|null $dateTime
-     */
-    public function setDateTime(?int $dateTime): void
+    public function setDateTime(?int $dateTime): self
     {
         $this->dateTime = $dateTime;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNote(): ?string
     {
         return $this->note;
     }
 
-    /**
-     * @param string|null $note
-     */
-    public function setNote(?string $note): void
+    public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getType(): int
+    public function getType(): ?int
     {
         return $this->type;
     }
 
-    /**
-     * @param int $type
-     */
-    public function setType(int $type): void
+    public function setType(int $type): self
     {
         $this->type = $type;
+
+        return $this;
     }
 
-    /**
-     * @return \Debt
-     */
-    public function getDebt(): \Debt
+    public function getDebt(): ?Debt
     {
         return $this->debt;
     }
 
-    /**
-     * @param \Debt $debt
-     */
-    public function setDebt(\Debt $debt): void
+    public function setDebt(?Debt $debt): self
     {
         $this->debt = $debt;
+
+        return $this;
     }
     /**
      * @var int

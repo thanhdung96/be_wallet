@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="budget")
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=BudgetRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Budget
 {
@@ -98,10 +100,7 @@ class Budget
      */
     private $endDate;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -114,180 +113,136 @@ class Budget
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSpent(): int
+    public function getSpent(): ?int
     {
         return $this->spent;
     }
 
-    /**
-     * @param int $spent
-     */
-    public function setSpent(int $spent): void
+    public function setSpent(int $spent): self
     {
         $this->spent = $spent;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getStatus(): int
+    public function getStatus(): ?int
     {
         return $this->status;
     }
 
-    /**
-     * @param int $status
-     */
-    public function setStatus(int $status): void
+    public function setStatus(int $status): self
     {
         $this->status = $status;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getPeriodDay(): int
+    public function getPeriodDay(): ?int
     {
         return $this->periodDay;
     }
 
-    /**
-     * @param int $periodDay
-     */
-    public function setPeriodDay(int $periodDay): void
+    public function setPeriodDay(int $periodDay): self
     {
         $this->periodDay = $periodDay;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getColor(): ?string
     {
         return $this->color;
     }
 
-    /**
-     * @param string|null $color
-     */
-    public function setColor(?string $color): void
+    public function setColor(?string $color): self
     {
         $this->color = $color;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getRepeat(): int
+    public function getRepeat(): ?int
     {
         return $this->repeat;
     }
 
-    /**
-     * @param int $repeat
-     */
-    public function setRepeat(int $repeat): void
+    public function setRepeat(int $repeat): self
     {
         $this->repeat = $repeat;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAccountId(): int
+    public function getAccountId(): ?int
     {
         return $this->accountId;
     }
 
-    /**
-     * @param int $accountId
-     */
-    public function setAccountId(int $accountId): void
+    public function setAccountId(int $accountId): self
     {
         $this->accountId = $accountId;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getCategoryId(): int
+    public function getCategoryId(): ?int
     {
         return $this->categoryId;
     }
 
-    /**
-     * @param int $categoryId
-     */
-    public function setCategoryId(int $categoryId): void
+    public function setCategoryId(int $categoryId): self
     {
         $this->categoryId = $categoryId;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getStartDate(): ?int
     {
         return $this->startDate;
     }
 
-    /**
-     * @param int|null $startDate
-     */
-    public function setStartDate(?int $startDate): void
+    public function setStartDate(?int $startDate): self
     {
         $this->startDate = $startDate;
+
+        return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getEndDate(): ?int
     {
         return $this->endDate;
     }
 
-    /**
-     * @param int|null $endDate
-     */
-    public function setEndDate(?int $endDate): void
+    public function setEndDate(?int $endDate): self
     {
         $this->endDate = $endDate;
+
+        return $this;
     }
 
 

@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="template", indexes={@ORM\Index(name="template___fk__wallet", columns={"wallet_id"}), @ORM\Index(name="template___fk_category", columns={"category_id"}), @ORM\Index(name="template___fk_account", columns={"account_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=TemplateRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Template
 {
@@ -100,10 +102,7 @@ class Template
      */
     private $category;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -116,164 +115,124 @@ class Template
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getName(): ?string
     {
         return $this->name;
     }
 
-    /**
-     * @param string|null $name
-     */
-    public function setName(?string $name): void
+    public function setName(?string $name): self
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getNote(): ?string
     {
         return $this->note;
     }
 
-    /**
-     * @param string|null $note
-     */
-    public function setNote(?string $note): void
+    public function setNote(?string $note): self
     {
         $this->note = $note;
+
+        return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getMemo(): ?string
     {
         return $this->memo;
     }
 
-    /**
-     * @param string|null $memo
-     */
-    public function setMemo(?string $memo): void
+    public function setMemo(?string $memo): self
     {
         $this->memo = $memo;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getAmount(): int
+    public function getAmount(): ?int
     {
         return $this->amount;
     }
 
-    /**
-     * @param int $amount
-     */
-    public function setAmount(int $amount): void
+    public function setAmount(int $amount): self
     {
         $this->amount = $amount;
+
+        return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getOrdering(): int
+    public function getOrdering(): ?int
     {
         return $this->ordering;
     }
 
-    /**
-     * @param int $ordering
-     */
-    public function setOrdering(int $ordering): void
+    public function setOrdering(int $ordering): self
     {
         $this->ordering = $ordering;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated(): \DateTime
+    public function getCreated(): ?\DateTimeInterface
     {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated(\DateTime $created): void
+    public function setCreated(\DateTimeInterface $created): self
     {
         $this->created = $created;
+
+        return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getModified(): \DateTime
+    public function getModified(): ?\DateTimeInterface
     {
         return $this->modified;
     }
 
-    /**
-     * @param \DateTime $modified
-     */
-    public function setModified(\DateTime $modified): void
+    public function setModified(\DateTimeInterface $modified): self
     {
         $this->modified = $modified;
+
+        return $this;
     }
 
-    /**
-     * @return \Wallet
-     */
-    public function getWallet(): \Wallet
+    public function getWallet(): ?Wallet
     {
         return $this->wallet;
     }
 
-    /**
-     * @param \Wallet $wallet
-     */
-    public function setWallet(\Wallet $wallet): void
+    public function setWallet(?Wallet $wallet): self
     {
         $this->wallet = $wallet;
+
+        return $this;
     }
 
-    /**
-     * @return \Account
-     */
-    public function getAccount(): \Account
+    public function getAccount(): ?Account
     {
         return $this->account;
     }
 
-    /**
-     * @param \Account $account
-     */
-    public function setAccount(\Account $account): void
+    public function setAccount(?Account $account): self
     {
         $this->account = $account;
+
+        return $this;
     }
 
-    /**
-     * @return \Category
-     */
-    public function getCategory(): \Category
+    public function getCategory(): ?Category
     {
         return $this->category;
     }
 
-    /**
-     * @param \Category $category
-     */
-    public function setCategory(\Category $category): void
+    public function setCategory(?Category $category): self
     {
         $this->category = $category;
+
+        return $this;
     }
 
 

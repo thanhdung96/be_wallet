@@ -9,6 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table(name="media", indexes={@ORM\Index(name="media_trans_id_fk", columns={"trans_id"})})
  * @ORM\Entity
+ * @ORM\Entity(repositoryClass=MediaRepository::class)
+ * @ORM\HasLifecycleCallbacks()
  */
 class Media
 {
@@ -38,10 +40,7 @@ class Media
      */
     private $trans;
 
-    /**
-     * @return int
-     */
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -54,36 +53,28 @@ class Media
         $this->id = $id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getPath(): ?string
     {
         return $this->path;
     }
 
-    /**
-     * @param string|null $path
-     */
-    public function setPath(?string $path): void
+    public function setPath(?string $path): self
     {
         $this->path = $path;
+
+        return $this;
     }
 
-    /**
-     * @return \Trans
-     */
-    public function getTrans(): \Trans
+    public function getTrans(): ?Trans
     {
         return $this->trans;
     }
 
-    /**
-     * @param \Trans $trans
-     */
-    public function setTrans(\Trans $trans): void
+    public function setTrans(?Trans $trans): self
     {
         $this->trans = $trans;
+
+        return $this;
     }
 
 
