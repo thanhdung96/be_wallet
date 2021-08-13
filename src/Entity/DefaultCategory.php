@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Repository\DefaultCategoryRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
