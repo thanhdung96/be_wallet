@@ -192,4 +192,24 @@ class Account
         return $this;
     }
 
+    public function __construct() {
+        $currentDateTime = new \DateTime();
+        $this->created = $currentDateTime;
+        $this->modified = $currentDateTime;
+        $this->ordering = 0;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateTimestamp(){
+        $currentTimestamp = new \DateTime();
+
+        $this->modified = $currentTimestamp;
+
+        if(is_null($this->getCreated())){
+            $this->setCreated($currentTimestamp);
+        }
+    }
+
 }

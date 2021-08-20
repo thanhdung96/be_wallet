@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Account;
 use App\Form\AccountType;
+use App\Form\EditAccountType;
 use App\Repository\AccountRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -63,7 +64,7 @@ class AccountController extends AbstractController
      */
     public function edit(Request $request, Account $account): Response
     {
-        $form = $this->createForm(AccountType::class, $account);
+        $form = $this->createForm(EditAccountType::class, $account);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -2,19 +2,17 @@
 
 {% block title %}Account index{% endblock %}
 
-{% block body %}
-    <h1>Account index</h1>
+{% block page_header %}
+    Account index
+{% endblock %}
 
+{% block body %}
     <table class="table">
         <thead>
             <tr>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Ordering</th>
-                <th>Balance</th>
                 <th>Email</th>
-                <th>Password</th>
-                <th>Created</th>
                 <th>Modified</th>
                 <th>actions</th>
             </tr>
@@ -24,11 +22,7 @@
             <tr>
                 <td>{{ account.id }}</td>
                 <td>{{ account.name }}</td>
-                <td>{{ account.ordering }}</td>
-                <td>{{ account.balance }}</td>
                 <td>{{ account.email }}</td>
-                <td>{{ account.password }}</td>
-                <td>{{ account.created ? account.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ account.modified ? account.modified|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('account_show', {'id': account.id}) }}">show</a>
@@ -37,7 +31,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="4">no records found</td>
             </tr>
         {% endfor %}
         </tbody>

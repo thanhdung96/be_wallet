@@ -25,9 +25,6 @@ class CurrencyController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/new", name="currency_new", methods={"GET","POST"})
-     */
     public function new(Request $request): Response
     {
         $currency = new Currency();
@@ -48,9 +45,6 @@ class CurrencyController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="currency_show", methods={"GET"})
-     */
     public function show(Currency $currency): Response
     {
         return $this->render('currency/show.html.twig', [
@@ -58,9 +52,6 @@ class CurrencyController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}/edit", name="currency_edit", methods={"GET","POST"})
-     */
     public function edit(Request $request, Currency $currency): Response
     {
         $form = $this->createForm(CurrencyType::class, $currency);
@@ -78,9 +69,6 @@ class CurrencyController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="currency_delete", methods={"POST"})
-     */
     public function delete(Request $request, Currency $currency): Response
     {
         if ($this->isCsrfTokenValid('delete'.$currency->getId(), $request->request->get('_token'))) {

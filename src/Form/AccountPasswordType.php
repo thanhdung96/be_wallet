@@ -11,19 +11,16 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class AccountType extends AbstractType
+class AccountPasswordType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name')
-            ->add('balance')
-            ->add('email', EmailType::class)
-            ->add('password', PasswordType::class)
-            ->add('currency', EntityType::class, [
-                'class' => Currency::class,
-                'choice_label' => 'currencyName',
+            ->add('old_password', PasswordType::class, [
+                'label' => 'Old password',
+                'mapped' => false
             ])
+            ->add('password', PasswordType::class)
         ;
     }
 

@@ -2,9 +2,11 @@
 
 {% block title %}Account{% endblock %}
 
-{% block body %}
-    <h1>Account</h1>
+{% block page_header %}
+    Account {{ account.email }}
+{% endblock %}
 
+{% block body %}
     <table class="table">
         <tbody>
             <tr>
@@ -26,10 +28,6 @@
             <tr>
                 <th>Email</th>
                 <td>{{ account.email }}</td>
-            </tr>
-            <tr>
-                <th>Password</th>
-                <td>{{ account.password }}</td>
             </tr>
             <tr>
                 <th>Created</th>
