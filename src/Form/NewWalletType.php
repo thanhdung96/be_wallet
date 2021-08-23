@@ -11,23 +11,18 @@ use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class WalletType extends AbstractType
+class NewWalletType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('name')
             ->add('color', ColorType::class)
-            ->add('amount')
             ->add('initialAmount')
             ->add('icon')
             ->add('account', EntityType::class, [
                 'class' => Account::class,
                 'choice_label' => 'name',
-            ])
-            ->add('currency', EntityType::class, [
-                'class' => Currency::class,
-                'choice_label' => 'currencyName',
             ])
         ;
     }
@@ -36,6 +31,7 @@ class WalletType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Wallet::class,
+            'allow_extra_fields' => true,
         ]);
     }
 }

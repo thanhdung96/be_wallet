@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Wallet;
+use App\Form\NewWalletType;
 use App\Form\WalletType;
+use App\Repository\CurrencyRepository;
 use App\Repository\WalletRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,6 +17,15 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class WalletController extends AbstractController
 {
+    /**
+     * @Var CurrencyRepository
+     */
+    private $currencyRepository;
+
+    public function __construct(CurrencyRepository $currencyRepository) {
+        $this->currencyRepository = $currencyRepository;
+    }
+
     /**
      * @Route("/", name="wallet_index", methods={"GET"})
      */
@@ -30,11 +41,20 @@ class WalletController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        // get all supported currency
+        $currencies = $this->currencyRepository->findAll();
+
         $wallet = new Wallet();
-        $form = $this->createForm(WalletType::class, $wallet);
+        $form = $this->createForm(NewWalletType::class, $wallet);
         $form->handleRequest($request);
 
+        // make current balance equals to initial balance
+        $wallet->setAmount($wallet->getInitialAmount());
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $selectedCurrency = $this->currencyRepository->find($request->request->get('new_wallet')['currency']);
+            $wallet->setCurrency($selectedCurrency);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($wallet);
             $entityManager->flush();
@@ -44,6 +64,7 @@ class WalletController extends AbstractController
 
         return $this->render('wallet/new.html.twig', [
             'wallet' => $wallet,
+            'currencies' => $currencies,
             'form' => $form->createView(),
         ]);
     }

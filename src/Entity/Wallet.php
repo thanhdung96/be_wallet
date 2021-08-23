@@ -34,7 +34,7 @@ class Wallet
     /**
      * @var string|null
      *
-     * @ORM\Column(name="color", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="color", type="string", length=255, nullable=true)
      */
     private $color;
 
@@ -57,7 +57,7 @@ class Wallet
      *
      * @ORM\Column(name="active", type="boolean", nullable=false)
      */
-    private $active = '0';
+    private $active = '1';
 
     /**
      * @var int
@@ -241,5 +241,25 @@ class Wallet
         return $this->active;
     }
 
+    public function __construct() {
+        $currentDateTime = new \DateTime();
+        $this->created = $currentDateTime;
+        $this->modified = $currentDateTime;
+        $this->color = '#000';
+        $this->currency = null;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateTimestamp(){
+        $currentTimestamp = new \DateTime();
+
+        $this->modified = $currentTimestamp;
+
+        if(is_null($this->getCreated())){
+            $this->setCreated($currentTimestamp);
+        }
+    }
 
 }
