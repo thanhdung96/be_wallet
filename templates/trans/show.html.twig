@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trans{% endblock %}
+
+{% block body %}
+    <h1>Trans</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tran.id }}</td>
+            </tr>
+            <tr>
+                <th>Note</th>
+                <td>{{ tran.note }}</td>
+            </tr>
+            <tr>
+                <th>Memo</th>
+                <td>{{ tran.memo }}</td>
+            </tr>
+            <tr>
+                <th>Type</th>
+                <td>{{ tran.type }}</td>
+            </tr>
+            <tr>
+                <th>Amount</th>
+                <td>{{ tran.amount }}</td>
+            </tr>
+            <tr>
+                <th>DateTime</th>
+                <td>{{ tran.dateTime }}</td>
+            </tr>
+            <tr>
+                <th>Fee</th>
+                <td>{{ tran.fee }}</td>
+            </tr>
+            <tr>
+                <th>TransAmount</th>
+                <td>{{ tran.transAmount }}</td>
+            </tr>
+            <tr>
+                <th>DebtId</th>
+                <td>{{ tran.debtId }}</td>
+            </tr>
+            <tr>
+                <th>DebtTransId</th>
+                <td>{{ tran.debtTransId }}</td>
+            </tr>
+            <tr>
+                <th>Created</th>
+                <td>{{ tran.created ? tran.created|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Modified</th>
+                <td>{{ tran.modified ? tran.modified|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('trans_index') }}">back to list</a>
+
+    <a href="{{ path('trans_edit', {'id': tran.id}) }}">edit</a>
+
+    {{ include('trans/_delete_form.html.twig') }}
+{% endblock %}

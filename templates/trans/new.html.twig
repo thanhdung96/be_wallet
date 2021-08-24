@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New Trans{% endblock %}
+
+{% block body %}
+    <h1>Create new Trans</h1>
+
+    {{ include('trans/_form.html.twig') }}
+
+    <a href="{{ path('trans_index') }}">back to list</a>
+{% endblock %}

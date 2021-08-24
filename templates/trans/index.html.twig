@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Trans index{% endblock %}
+
+{% block body %}
+    <h1>Trans index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Note</th>
+                <th>Memo</th>
+                <th>Type</th>
+                <th>Amount</th>
+                <th>DateTime</th>
+                <th>Fee</th>
+                <th>TransAmount</th>
+                <th>DebtId</th>
+                <th>DebtTransId</th>
+                <th>Created</th>
+                <th>Modified</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tran in trans %}
+            <tr>
+                <td>{{ tran.id }}</td>
+                <td>{{ tran.note }}</td>
+                <td>{{ tran.memo }}</td>
+                <td>{{ tran.type }}</td>
+                <td>{{ tran.amount }}</td>
+                <td>{{ tran.dateTime }}</td>
+                <td>{{ tran.fee }}</td>
+                <td>{{ tran.transAmount }}</td>
+                <td>{{ tran.debtId }}</td>
+                <td>{{ tran.debtTransId }}</td>
+                <td>{{ tran.created ? tran.created|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ tran.modified ? tran.modified|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('trans_show', {'id': tran.id}) }}">show</a>
+                    <a href="{{ path('trans_edit', {'id': tran.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('trans_new') }}">Create new</a>
+{% endblock %}

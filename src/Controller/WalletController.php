@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Wallet;
+use App\Form\EditWalletType;
 use App\Form\NewWalletType;
 use App\Form\WalletType;
 use App\Repository\CurrencyRepository;
@@ -84,7 +85,7 @@ class WalletController extends AbstractController
      */
     public function edit(Request $request, Wallet $wallet): Response
     {
-        $form = $this->createForm(WalletType::class, $wallet);
+        $form = $this->createForm(EditWalletType::class, $wallet);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

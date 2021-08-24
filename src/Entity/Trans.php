@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Enums\TransferTypes;
 use App\Repository\TransRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -50,7 +51,7 @@ class Trans
      *
      * @ORM\Column(name="amount", type="integer", nullable=false)
      */
-    private $amount;
+    private $amount = 0;
 
     /**
      * @var int|null
@@ -64,14 +65,14 @@ class Trans
      *
      * @ORM\Column(name="fee", type="integer", nullable=true)
      */
-    private $fee;
+    private $fee = 0;
 
     /**
      * @var int
      *
      * @ORM\Column(name="trans_amount", type="integer", nullable=false)
      */
-    private $transAmount;
+    private $transAmount = 0;
 
     /**
      * @var int
@@ -334,5 +335,25 @@ class Trans
         return $this;
     }
 
+    public function __construct() {
+        $currentTimestamp = new \DateTime();
+
+        $this->created = $currentTimestamp;
+        $this->modified = $currentTimestamp;
+        $this->type = TransferTypes::$EXPENSE;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateTimestamp(){
+        $currentTimestamp = new \DateTime();
+
+        $this->modified = $currentTimestamp;
+
+        if(is_null($this->getCreated())){
+            $this->setCreated($currentTimestamp);
+        }
+    }
 
 }
