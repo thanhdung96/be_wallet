@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/account")
@@ -17,12 +18,27 @@ use Symfony\Component\Routing\Annotation\Route;
 class AccountController extends AbstractController
 {
     /**
+     * @var AccountRepository
+     */
+    private $accountRepository;
+
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    public function __construct(AccountRepository $accountRepository, UserPasswordEncoderInterface $passwordEncoder){
+        $this->accountRepository = $accountRepository;
+        $this->passwordEncoder = $passwordEncoder;
+    }
+
+    /**
      * @Route("/", name="account_index", methods={"GET"})
      */
-    public function index(AccountRepository $accountRepository): Response
+    public function index(): Response
     {
         return $this->render('account/index.html.twig', [
-            'accounts' => $accountRepository->findAll(),
+            'accounts' => $this->accountRepository->findAll(),
         ]);
     }
 
@@ -37,6 +53,15 @@ class AccountController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            // encrypt password
+            $account->setPassword(
+                $this->passwordEncoder->encodePassword(
+                    $account,
+                    $account->getPassword()
+                )
+            );
+
             $entityManager->persist($account);
             $entityManager->flush();
 
@@ -68,6 +93,14 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // encrypt password
+            $account->setPassword(
+                $this->passwordEncoder->encodePassword(
+                    $account,
+                    $account->getPassword()
+                )
+            );
+
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('account_index', [], Response::HTTP_SEE_OTHER);
@@ -79,9 +112,6 @@ class AccountController extends AbstractController
         ]);
     }
 
-    /**
-     * @Route("/{id}", name="account_delete", methods={"POST"})
-     */
     public function delete(Request $request, Account $account): Response
     {
         if ($this->isCsrfTokenValid('delete'.$account->getId(), $request->request->get('_token'))) {

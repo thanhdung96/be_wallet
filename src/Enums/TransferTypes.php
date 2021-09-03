@@ -4,7 +4,7 @@
 namespace App\Enums;
 
 
-class TransferTypes
+final class TransferTypes
 {
     public static $REVENUE = 0;
     public static $EXPENSE = 1;
