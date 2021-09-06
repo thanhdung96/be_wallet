@@ -1,15 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'security/security_base.html.twig' %}
 
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>
-        Log in!
-    </title>
-    {% include "components/html_header.html.twig" %}
-</head>
-<body class="mt-5">
+{% block title %}
+    Login
+{% endblock %}
+
+{% block body %}
     <div class="container-fluid">
         <form method="post" class="form">
             {% if error %}
@@ -70,8 +65,11 @@
                 <button class="btn btn-lg btn-primary" type="submit">
                     Sign in
                 </button>
+                <a href="{{ path('app_register') }}" class="btn btn-secondary">
+                    Register
+                </a>
             </div>
         </form>
     </div>
-</body>
-</html>
+
+{% endblock %}
