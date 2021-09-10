@@ -7,15 +7,23 @@
 {% block body %}
     <div class="container-fluid">
         <form method="post" class="form">
-            {% if error %}
-                <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
+            <div class="row justify-content-center">
+                {% if message %}
+                    {% if message_type == 'error' %}
+                        <div class="alert alert-danger" role="alert">{{ message.messageKey|trans(message.messageData, 'security') }}</div>
+                    {% endif %}
 
-            {% if app.user %}
-                <div class="mb-3">
-                    You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
-                </div>
-            {% endif %}
+                    {% if app.user %}
+                        <div class="mb-3">
+                            You are logged in as {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
+                        </div>
+                    {% endif %}
+                {% endif %}
+                
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">{{ message }}</div>
+                {% endfor %}
+            </div>
 
             <div class="row justify-content-center">
                 <div class="col-md-6 text-center mb-2">
@@ -65,7 +73,8 @@
                 <button class="btn btn-lg btn-primary" type="submit">
                     Sign in
                 </button>
-                <a href="{{ path('app_register') }}" class="btn btn-secondary">
+
+                <a href="{{ path('app_register') }}" class="btn btn-lg btn-secondary ml-3">
                     Register
                 </a>
             </div>

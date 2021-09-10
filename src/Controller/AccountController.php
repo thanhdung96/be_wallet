@@ -93,14 +93,6 @@ class AccountController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // encrypt password
-            $account->setPassword(
-                $this->passwordEncoder->encodePassword(
-                    $account,
-                    $account->getPassword()
-                )
-            );
-
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('account_index', [], Response::HTTP_SEE_OTHER);

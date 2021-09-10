@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
@@ -18,8 +19,15 @@ class SecurityController extends AbstractController
      */
     private $accountRepository;
 
-    public function __construct(AccountRepository $accountRepository) {
+    /**
+     * @var UserPasswordEncoderInterface
+     */
+    private $passwordEncoder;
+
+    public function __construct(AccountRepository $accountRepository,
+                                UserPasswordEncoderInterface $passwordEncoder) {
         $this->accountRepository = $accountRepository;
+        $this->passwordEncoder = $passwordEncoder;
     }
 
     /**
@@ -32,11 +40,15 @@ class SecurityController extends AbstractController
         // }
 
         // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+        $message = $authenticationUtils->getLastAuthenticationError();
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('security/login.html.twig', [
+            'last_username' => $lastUsername,
+            'message' => $message,
+            'message_type' => 'error'
+        ]);
     }
 
     /**
@@ -69,7 +81,16 @@ class SecurityController extends AbstractController
             $entityManager->persist($account);
             $entityManager->flush();
 
-            return $this->redirectToRoute('security/login.html.twig', [], Response::HTTP_SEE_OTHER);
+            $lastUsername = $account->getEmail();
+
+            $this->addFlash(
+                'success',
+                'Registered successfully'
+            );
+
+            return $this->redirectToRoute('app_login', [
+                'last_username' => $lastUsername,
+            ]);
         }
 
         return $this->render('security/register.html.twig', [
