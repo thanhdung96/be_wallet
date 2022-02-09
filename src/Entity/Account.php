@@ -263,6 +263,7 @@ class Account implements UserInterface
         $this->created = $currentDateTime;
         $this->modified = $currentDateTime;
         $this->ordering = 0;
+        $this->roles[] = 'ROLE_USER';
     }
 
     /**

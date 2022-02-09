@@ -35,7 +35,7 @@
                 <div class="col-md-6">
                     <div class="form-group">
                         <label for="inputEmail">Email</label>
-                        <input type="email" value="{{ last_username }}" name="email"
+                        <input type="email" value="{{ app.request.get('last_username') }}" name="email"
                                id="inputEmail" class="form-control" autocomplete="email"
                                required autofocus
                         >

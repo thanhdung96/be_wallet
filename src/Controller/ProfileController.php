@@ -58,14 +58,32 @@ class ProfileController extends AbstractController
      */
     public function changePassword(Request $request): Response{
         $account = $this->getUser();
-
+        $data = $request->request->get('account_password');
         $form = $this->createForm(AccountPasswordType::class, $account);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+        if(!is_null($data)){
+            if($this->passwordEncoder->isPasswordValid($account, $data['old_password'])){
+                $form->handleRequest($request);
 
-            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+                if ($form->isSubmitted() && $form->isValid()) {
+                    // encrypt password
+                    $account->setPassword(
+                        $this->passwordEncoder->encodePassword(
+                            $account,
+                            $data['password']
+                        )
+                    );
+
+                    $this->getDoctrine()->getManager()->flush();
+
+                    return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+                }
+            } else {
+                $this->addFlash(
+                    'failure',
+                    'Incorrect password'
+                );
+            }
         }
 
         return $this->render('account/change_password.html.twig', [
