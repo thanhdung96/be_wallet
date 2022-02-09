@@ -19,21 +19,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class WalletController extends AbstractController
 {
     /**
-     * @Var CurrencyRepository
+     * @var CurrencyRepository
      */
     private $currencyRepository;
 
-    public function __construct(CurrencyRepository $currencyRepository) {
+    /**
+     * @var WalletRepository
+     */
+    private $walletRepository;
+
+    public function __construct(CurrencyRepository $currencyRepository, WalletRepository $walletRepository) {
         $this->currencyRepository = $currencyRepository;
+        $this->walletRepository = $walletRepository;
     }
 
     /**
      * @Route("/", name="wallet_index", methods={"GET"})
      */
-    public function index(WalletRepository $walletRepository): Response
+    public function index(): Response
     {
         return $this->render('wallet/index.html.twig', [
-            'wallets' => $walletRepository->findAll(),
+            'wallets' => $this->walletRepository->findBy([
+                'account' => $this->getUser(),
+                'active' => true,
+            ]),
         ]);
     }
 
@@ -53,8 +62,11 @@ class WalletController extends AbstractController
         $wallet->setAmount($wallet->getInitialAmount());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $selectedCurrency = $this->currencyRepository->find($request->request->get('new_wallet')['currency']);
+            $selectedCurrency = $this->currencyRepository->find(
+                                    $request->request->get('new_wallet')['currency']
+                                );
             $wallet->setCurrency($selectedCurrency);
+            $wallet->setAccount($this->getUser());
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($wallet);
@@ -66,6 +78,7 @@ class WalletController extends AbstractController
         return $this->render('wallet/new.html.twig', [
             'wallet' => $wallet,
             'currencies' => $currencies,
+            'defaultCurrency' => $this->getUser()->getCurrency(),
             'form' => $form->createView(),
         ]);
     }
@@ -73,18 +86,34 @@ class WalletController extends AbstractController
     /**
      * @Route("/{id}", name="wallet_show", methods={"GET"})
      */
-    public function show(Wallet $wallet): Response
+    public function show($id): Response
     {
-        return $this->render('wallet/show.html.twig', [
-            'wallet' => $wallet,
-        ]);
+        $wallet = $this->walletRepository->findOneBy([
+                'account' => $this->getUser(),
+                'id' => $id,
+                'active' => true,
+            ]);
+
+        if(!empty($wallet)){
+            return $this->render('wallet/show.html.twig', [
+                'wallet' => $wallet,
+            ]);
+        } else {
+            return $this->redirectToRoute('wallet_index', [], Response::HTTP_SEE_OTHER);
+        }
     }
 
     /**
      * @Route("/{id}/edit", name="wallet_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Wallet $wallet): Response
+    public function edit(Request $request, $id): Response
     {
+        $wallet = $this->walletRepository->findOneBy([
+                'account' => $this->getUser(),
+                'id' => $id,
+                'active' => true,
+            ]);
+
         $form = $this->createForm(EditWalletType::class, $wallet);
         $form->handleRequest($request);
 
@@ -103,14 +132,30 @@ class WalletController extends AbstractController
     /**
      * @Route("/{id}", name="wallet_delete", methods={"POST"})
      */
-    public function delete(Request $request, Wallet $wallet): Response
+    public function delete(Request $request, $id): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$wallet->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($wallet);
-            $entityManager->flush();
+        $wallet = $this->walletRepository->findOneBy([
+                'account' => $this->getUser(),
+                'id' => $id,
+                'active' => true,
+            ]);
+
+        if(!is_null($wallet)){
+            if ($this->isCsrfTokenValid('delete'.$wallet->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $wallet->setActive(false);
+                $entityManager->persist($wallet);
+                $entityManager->flush();
+
+                $this->addFlash(
+                    'success',
+                    'Wallet removed successfully.'
+                );
+                return $this->redirectToRoute('wallet_index', [], Response::HTTP_SEE_OTHER);
+            }
+        } else {
+            return $this->redirectToRoute('wallet_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->redirectToRoute('wallet_index', [], Response::HTTP_SEE_OTHER);
     }
 }

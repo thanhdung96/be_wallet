@@ -9,24 +9,13 @@
 {% block body %}
     {{ form_start(form, {'attr': {'class': 'form'}}) }}
     <div class="row">
-        <div class="col-lg-6">
+        <div class="col-lg-12">
             <div class="form-group">
                 <label >Wallet name</label>
                 {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
                 {% if form_errors(form.name) %}
                     <small class="form-text text-muted">
                         {{ form_errors(form.name) }}
-                    </small>
-                {% endif %}
-            </div>
-        </div>
-        <div class="col-lg-6">
-            <div class="form-group">
-                <label >Acount</label>
-                {{ form_widget(form.account) }}
-                {% if form_errors(form.account) %}
-                    <small class="form-text text-muted">
-                        {{ form_errors(form.account) }}
                     </small>
                 {% endif %}
             </div>
@@ -50,24 +39,16 @@
                 <label >Default currency</label>
                 <select id="new_wallet_currency" name="new_wallet[currency]" class="form-control">
                     {% for currency in currencies %}
-                        <option value="{{ currency.id }}">
-                            {{ currency.currencyName }}
-                        </option>
-                    {% endfor %}
-                    {# TODO add default currency according to user's currency #}
-                    {#
-                    {% for currency in currencies %}
-                        {% if account.currency.id == currency.id %}
-                            <option value="{{ currency.id }}" selected>
+                        {% if currency.id == defaultCurrency.id %}
+                            <option value="{{ currency.id }}" selected='selected'>
                                 {{ currency.currencyName }}
                             </option>
                         {% else %}
-                            <option value="{{ currency.id }}" selected>
+                            <option value="{{ currency.id }}">
                                 {{ currency.currencyName }}
                             </option>
                         {% endif %}
                     {% endfor %}
-                    #}
                 </select>
             </div>
         </div>

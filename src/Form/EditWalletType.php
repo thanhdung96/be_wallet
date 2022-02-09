@@ -19,10 +19,10 @@ class EditWalletType extends AbstractType
             ->add('name')
             ->add('color', ColorType::class)
             ->add('icon')
-            ->add('account', EntityType::class, [
+            /*->add('account', EntityType::class, [
                 'class' => Account::class,
                 'choice_label' => 'name',
-            ])
+            ])*/
             ->add('currency', EntityType::class, [
                 'class' => Currency::class,
                 'choice_label' => 'currencyName',

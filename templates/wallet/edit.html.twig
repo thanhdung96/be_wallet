@@ -22,31 +22,20 @@
         </div>
         <div class="col-lg-6">
             <div class="form-group">
-                <label >Acount</label>
-                {{ form_widget(form.account) }}
-                {% if form_errors(form.account) %}
-                    <small class="form-text text-muted">
-                        {{ form_errors(form.account) }}
-                    </small>
-                {% endif %}
+                <label >Default currency</label>
+                {{ form_widget(form.currency, {'attr': {'class': 'form-control'}}) }}
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-lg-4">
-            <div class="form-group">
-                <label >Default currency</label>
-                {{ form_widget(form.currency, {'attr': {'class': 'form-control'}}) }}
-            </div>
-        </div>
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <div class="form-group">
                 <label >Color</label>
                 {{ form_widget(form.color, {'attr': {'class': 'form-control'}}) }}
             </div>
         </div>
-        <div class="col-lg-4">
+        <div class="col-lg-6">
             <div class="form-group">
                 <label >Icon</label>
                 {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
