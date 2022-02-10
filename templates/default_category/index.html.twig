@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DefaultCategory index{% endblock %}
+
+{% block body %}
+    <h1>DefaultCategory index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Color</th>
+                <th>Type</th>
+                <th>Active</th>
+                <th>Ordering</th>
+                <th>Icon</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for default_category in default_categories %}
+            <tr>
+                <td>{{ default_category.id }}</td>
+                <td>{{ default_category.name }}</td>
+                <td>{{ default_category.color }}</td>
+                <td>{{ default_category.type }}</td>
+                <td>{{ default_category.active }}</td>
+                <td>{{ default_category.ordering }}</td>
+                <td>{{ default_category.icon }}</td>
+                <td>
+                    <a href="{{ path('default_category_show', {'id': default_category.id}) }}">show</a>
+                    <a href="{{ path('default_category_edit', {'id': default_category.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('default_category_new') }}">Create new</a>
+{% endblock %}

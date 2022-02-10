@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit DefaultCategory{% endblock %}
+
+{% block body %}
+    <h1>Edit DefaultCategory</h1>
+
+    {{ include('default_category/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('default_category_index') }}">back to list</a>
+
+    {{ include('default_category/_delete_form.html.twig') }}
+{% endblock %}
