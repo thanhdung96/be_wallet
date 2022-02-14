@@ -47,14 +47,27 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
 
     public function getCredentials(Request $request)
     {
+        $strEmail = null;
+        $strName = null;
+        // check if the field sent contains @ character or not
+        // if it does, it is an email address
+        // else it is a username
+        if(str_contains($request->request->get('email'), '@')){
+             $strEmail = $request->request->get('email');
+        } else {
+            $strName = $request->request->get('email');
+        }
+
         $credentials = [
-            'email' => $request->request->get('email'),
+            'email' => $strEmail,
+            'name' => $strName,
             'password' => $request->request->get('password'),
             'csrf_token' => $request->request->get('_csrf_token'),
         ];
+
         $request->getSession()->set(
             Security::LAST_USERNAME,
-            $credentials['email']
+            is_null($strEmail) ? $strName :$strEmail
         );
 
         return $credentials;
@@ -67,8 +80,21 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator implements P
             throw new InvalidCsrfTokenException();
         }
 
-        $user = $this->entityManager->getRepository(Account::class)->findOneBy(['email' => $credentials['email']]);
+        // check if user is logging in using email or username
+        $queryArray = [];
+        if(is_null($credentials['email'])){
+            $queryArray = [
+                'name' => $credentials['name']
+            ];
+        } else {
+            $queryArray = [
+                'email' => $credentials['email']
+            ];
+        }
 
+        $user = $this->entityManager->getRepository(Account::class)
+                    ->findOneBy($queryArray);
+        
         if (!$user) {
             throw new UsernameNotFoundException('Email could not be found.');
         }
