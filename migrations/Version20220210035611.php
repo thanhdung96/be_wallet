@@ -20,6 +20,7 @@ final class Version20220210035611 extends AbstractMigration
     public function up(Schema $schema): void
     {
         // this up() migration is auto-generated, please modify it to your needs
+        $this->addSql('ALTER TABLE default_category ADD created DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL, ADD modified DATETIME DEFAULT CURRENT_TIMESTAMP NOT NULL');
         $this->addSql('insert into default_category(name, color, type, active, ordering, icon) values (\'Bar, Café\', \'#34BFFF\', 1, 1, 4, 1);');
         $this->addSql('insert into default_category(name, color, type, active, ordering, icon) values (\'Gasoline\', \'#0077C5\', 1, 1, 5, 2);');
         $this->addSql('insert into default_category(name, color, type, active, ordering, icon) values (\'Parking\', \'#00A6A4\', 1, 1, 6, 144);');
@@ -53,5 +54,6 @@ final class Version20220210035611 extends AbstractMigration
     {
         // this down() migration is auto-generated, please modify it to your needs
         $this->addSql('delete from default_category;');
+        $this->addSql('ALTER TABLE default_category DROP created, DROP modified');
     }
 }

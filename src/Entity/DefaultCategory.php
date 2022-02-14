@@ -151,5 +151,48 @@ class DefaultCategory
      */
     private $icon;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false)
+     */
+    private $created;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=false)
+     */
+    private $modified;
+
+    public function __construct(){
+        $currentDateTime = new \DateTime();
+        $this->created = $currentDateTime;
+        $this->modified = $currentDateTime;
+        $this->active = true;
+    }
+
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateTimestamp(){
+        $currentTimestamp = new \DateTime();
+
+        $this->modified = $currentTimestamp;
+
+        if(is_null($this->getCreated())){
+            $this->setCreated($currentTimestamp);
+        }
+    }
+
+    public function toUserCategory(): Category{
+        $userCategory = new Category();
+        $userCategory->setName($this->name);
+        $userCategory->setColor($this->color);
+        $userCategory->setType($this->type);
+        $userCategory->setOrdering($this->ordering);
+        $userCategory->setIcon($this->icon);
+
+        return $userCategory;
+    }
 }

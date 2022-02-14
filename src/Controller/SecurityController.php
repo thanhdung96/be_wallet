@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Account;
 use App\Form\AccountType;
 use App\Repository\AccountRepository;
+use App\Repository\DefaultCategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -24,10 +25,22 @@ class SecurityController extends AbstractController
      */
     private $passwordEncoder;
 
+    /**
+     * @var DefaultCategoryRepository
+     */
+    private $defaultCategoryRepository;
+
     public function __construct(AccountRepository $accountRepository,
                                 UserPasswordEncoderInterface $passwordEncoder) {
         $this->accountRepository = $accountRepository;
         $this->passwordEncoder = $passwordEncoder;
+    }
+
+    /**
+     * @required
+     */
+    public function setDefaultCategoryRepository(DefaultCategoryRepository $defaultCategoryRepository){
+        $this->defaultCategoryRepository = $defaultCategoryRepository;
     }
 
     /**
@@ -78,7 +91,15 @@ class SecurityController extends AbstractController
                 )
             );
 
+
             $entityManager->persist($account);
+            $entityManager->flush();
+
+            // add custom user categories
+            $userCategories = $this->makeUserCategories($account);
+            foreach ($userCategories as $userCategory) {
+                $entityManager->persist($userCategory);
+            }
             $entityManager->flush();
 
             $lastUsername = $account->getEmail();
@@ -97,5 +118,20 @@ class SecurityController extends AbstractController
             'account' => $account,
             'form' => $form->createView(),
         ]);
+    }
+
+
+    private function makeUserCategories(Account $account): array{
+        $defaultCategories = $this->defaultCategoryRepository->findAll();
+        $userCategories = [];
+
+        foreach ($defaultCategories as $defaultCategory) {
+            $userCategory = $defaultCategory->toUserCategory();
+            $userCategory->setAccount($account);
+
+            $userCategories[] = $userCategory;
+        }
+
+        return $userCategories;
     }
 }

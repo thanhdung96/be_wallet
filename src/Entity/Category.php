@@ -211,5 +211,23 @@ class Category
         return $this;
     }
 
+    public function __construct(){
+        $currentDateTime = new \DateTime();
+        $this->created = $currentDateTime;
+        $this->modified = $currentDateTime;
+        $this->active = true;
+    }
 
+    /**
+     * @ORM\PreUpdate
+     */
+    public function updateTimestamp(){
+        $currentTimestamp = new \DateTime();
+
+        $this->modified = $currentTimestamp;
+
+        if(is_null($this->getCreated())){
+            $this->setCreated($currentTimestamp);
+        }
+    }
 }

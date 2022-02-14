@@ -16,12 +16,24 @@ use Symfony\Component\Routing\Annotation\Route;
 class CategoryController extends AbstractController
 {
     /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    public function __construct(CategoryRepository $categoryRepository){
+        $this->categoryRepository = $categoryRepository;
+    }
+
+    /**
      * @Route("/", name="category_index", methods={"GET"})
      */
     public function index(CategoryRepository $categoryRepository): Response
     {
         return $this->render('category/index.html.twig', [
-            'categories' => $categoryRepository->findAll(),
+            'categories' => $this->categoryRepository->findBy([
+                'account' => $this->getUser(),
+                'active' => true,
+            ]),
         ]);
     }
 

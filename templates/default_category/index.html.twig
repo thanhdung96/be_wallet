@@ -24,7 +24,13 @@
                 <td>{{ default_category.id }}</td>
                 <td>{{ default_category.name }}</td>
                 <td>{{ default_category.color }}</td>
-                <td>{{ default_category.type }}</td>
+                {% if default_category.type == 0 %}
+                    <td>Revenue</td>
+                {% elseif default_category.type == 1 %}
+                    <td>Expense</td>
+                {% else %}
+                    <td>Transfer</td>
+                {% endif %}
                 <td>{{ default_category.active }}</td>
                 <td>{{ default_category.ordering }}</td>
                 <td>{{ default_category.icon }}</td>
