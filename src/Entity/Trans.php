@@ -28,16 +28,9 @@ class Trans
     /**
      * @var string|null
      *
-     * @ORM\Column(name="note", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="note", type="string", length=2048, nullable=true)
      */
     private $note;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="memo", type="text", length=65535, nullable=true)
-     */
-    private $memo;
 
     /**
      * @var int
@@ -56,7 +49,7 @@ class Trans
     /**
      * @var int|null
      *
-     * @ORM\Column(name="date_time", type="integer", nullable=true)
+     * @ORM\Column(name="date_time", type="datetime", nullable=true)
      */
     private $dateTime;
 
@@ -66,27 +59,6 @@ class Trans
      * @ORM\Column(name="fee", type="integer", nullable=true)
      */
     private $fee = 0;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="trans_amount", type="integer", nullable=false)
-     */
-    private $transAmount = 0;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="debt_id", type="integer", nullable=false)
-     */
-    private $debtId;
-
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="debt_trans_id", type="integer", nullable=false)
-     */
-    private $debtTransId;
 
     /**
      * @var \DateTime
@@ -167,18 +139,6 @@ class Trans
         return $this;
     }
 
-    public function getMemo(): ?string
-    {
-        return $this->memo;
-    }
-
-    public function setMemo(?string $memo): self
-    {
-        $this->memo = $memo;
-
-        return $this;
-    }
-
     public function getType(): ?int
     {
         return $this->type;
@@ -203,12 +163,12 @@ class Trans
         return $this;
     }
 
-    public function getDateTime(): ?int
+    public function getDateTime(): ?\DateTimeInterface
     {
         return $this->dateTime;
     }
 
-    public function setDateTime(?int $dateTime): self
+    public function setDateTime(\DateTimeInterface $dateTime): self
     {
         $this->dateTime = $dateTime;
 
@@ -223,42 +183,6 @@ class Trans
     public function setFee(?int $fee): self
     {
         $this->fee = $fee;
-
-        return $this;
-    }
-
-    public function getTransAmount(): ?int
-    {
-        return $this->transAmount;
-    }
-
-    public function setTransAmount(int $transAmount): self
-    {
-        $this->transAmount = $transAmount;
-
-        return $this;
-    }
-
-    public function getDebtId(): ?int
-    {
-        return $this->debtId;
-    }
-
-    public function setDebtId(int $debtId): self
-    {
-        $this->debtId = $debtId;
-
-        return $this;
-    }
-
-    public function getDebtTransId(): ?int
-    {
-        return $this->debtTransId;
-    }
-
-    public function setDebtTransId(int $debtTransId): self
-    {
-        $this->debtTransId = $debtTransId;
 
         return $this;
     }
@@ -340,7 +264,7 @@ class Trans
 
         $this->created = $currentTimestamp;
         $this->modified = $currentTimestamp;
-        $this->type = TransferTypes::$EXPENSE;
+        $this->type = TransferTypes::EXPENSE;
     }
 
     /**

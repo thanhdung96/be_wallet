@@ -10,14 +10,10 @@
             <tr>
                 <th>Id</th>
                 <th>Note</th>
-                <th>Memo</th>
                 <th>Type</th>
                 <th>Amount</th>
                 <th>DateTime</th>
                 <th>Fee</th>
-                <th>TransAmount</th>
-                <th>DebtId</th>
-                <th>DebtTransId</th>
                 <th>Created</th>
                 <th>Modified</th>
                 <th>actions</th>
@@ -28,14 +24,10 @@
             <tr>
                 <td>{{ tran.id }}</td>
                 <td>{{ tran.note }}</td>
-                <td>{{ tran.memo }}</td>
                 <td>{{ tran.type }}</td>
                 <td>{{ tran.amount }}</td>
-                <td>{{ tran.dateTime }}</td>
+                <td>{{ tran.dateTime ? tran.dateTime|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ tran.fee }}</td>
-                <td>{{ tran.transAmount }}</td>
-                <td>{{ tran.debtId }}</td>
-                <td>{{ tran.debtTransId }}</td>
                 <td>{{ tran.created ? tran.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ tran.modified ? tran.modified|date('Y-m-d H:i:s') : '' }}</td>
                 <td>

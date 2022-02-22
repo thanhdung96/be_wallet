@@ -3,8 +3,11 @@
 namespace App\Controller;
 
 use App\Entity\Trans;
+use App\Enums\TransferTypes;
 use App\Form\TransType;
+use App\Repository\CategoryRepository;
 use App\Repository\TransRepository;
+use App\Repository\WalletRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +19,30 @@ use Symfony\Component\Routing\Annotation\Route;
 class TransController extends AbstractController
 {
     /**
+     * @var WalletRepository
+     */
+    private $walletRepository;
+
+    /**
+     * @var CategoryRepository
+     */
+    private $categoryRepository;
+
+    public function __construct(WalletRepository $walletRepository,
+                                CategoryRepository $categoryRepository){
+        $this->walletRepository = $walletRepository;
+        $this->categoryRepository = $categoryRepository;
+    }
+
+    /**
      * @Route("/", name="trans_index", methods={"GET"})
      */
     public function index(TransRepository $transRepository): Response
     {
         return $this->render('trans/index.html.twig', [
-            'trans' => $transRepository->findAll(),
+            'trans' => $transRepository->findBy([
+                'account' => $this->getUser(),
+            ]),
         ]);
     }
 
@@ -31,11 +52,74 @@ class TransController extends AbstractController
     public function new(Request $request): Response
     {
         $tran = new Trans();
+        $currentUser = $this->getUser();
+        $categories = $this->categoryRepository->findBy([
+            'active' => true,
+            'account' => $currentUser,
+        ]);
+        $wallets = $this->walletRepository->findBy([
+            'active' => true,
+            'account' => $currentUser,
+        ]);
+        $fromWallet = null;
+        $toWallet = null;
+
         $form = $this->createForm(TransType::class, $tran);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = $request->get('trans');
+
+            if($data['type'] == TransferTypes::EXPENSE){
+                $fromWallet = $this->walletRepository->findOneBy([
+                    'active' => true,
+                    'account' => $currentUser,
+                    'id' => $data['wallet']
+                ]);
+                $fromWallet->setAmount(
+                    $fromWallet->getAmount() - $data['amount']
+                );
+            } else if ($data['type'] == TransferTypes::REVENUE){
+                $fromWallet = $this->walletRepository->findOneBy([
+                    'active' => true,
+                    'account' => $currentUser,
+                    'id' => $data['wallet']
+                ]);
+                $fromWallet->setAmount(
+                    $fromWallet->getAmount() + $data['amount']
+                );
+            } else {
+                $fromWallet = $this->walletRepository->findOneBy([
+                    'active' => true,
+                    'account' => $currentUser,
+                    'id' => $data['wallet']
+                ]);
+                $toWallet = $this->walletRepository->findOneBy([
+                    'active' => true,
+                    'account' => $currentUser,
+                    'id' => $data['transferWallet']
+                ]);
+
+                $amount = (int)$data['amount'];
+                $fee = 0;
+                if(isset($data['withFee'])){
+                    $fee = (int)$data['withFee'];
+                }
+
+                $fromWallet->setAmount(
+                    $fromWallet->getAmount() - $amount - $fee
+                );
+                $toWallet->setAmount(
+                    $toWallet->getAmount() + $amount
+                );
+            }
+
+            $tran->setAccount($currentUser);
             $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($fromWallet);
+            if(!is_null($toWallet)){
+                $entityManager->persist($toWallet);
+            }
             $entityManager->persist($tran);
             $entityManager->flush();
 
@@ -44,6 +128,8 @@ class TransController extends AbstractController
 
         return $this->render('trans/new.html.twig', [
             'tran' => $tran,
+            'wallets' => $wallets,
+            'categories' => $categories,
             'form' => $form->createView(),
         ]);
     }

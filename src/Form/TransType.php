@@ -2,8 +2,13 @@
 
 namespace App\Form;
 
+use App\Entity\Category;
 use App\Entity\Trans;
+use App\Entity\Wallet;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,21 +17,14 @@ class TransType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('note')
-            ->add('memo')
-            ->add('type')
+            ->add('note', TextareaType::class)
             ->add('amount')
-            ->add('dateTime')
+            ->add('dateTime', DateTimeType::class, array(
+                'widget' => 'single_text',
+                'html5' => false,
+                'format' => 'dd-MM-yyyy HH:mm',
+            ))
             ->add('fee')
-            ->add('transAmount')
-            ->add('debtId')
-            ->add('debtTransId')
-            ->add('created')
-            ->add('modified')
-            ->add('account')
-            ->add('category')
-            ->add('transferWallet')
-            ->add('wallet')
         ;
     }
 
@@ -34,6 +32,7 @@ class TransType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Trans::class,
+            'allow_extra_fields' => true,
         ]);
     }
 }

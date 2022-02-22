@@ -6,7 +6,7 @@ namespace App\Enums;
 
 final class TransferTypes
 {
-    public static $REVENUE = 0;
-    public static $EXPENSE = 1;
-    public static $TRANSFER = 2;
+    public const REVENUE = 0;
+    public const EXPENSE = 1;
+    public const TRANSFER = 2;
 }
