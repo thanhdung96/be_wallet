@@ -8,30 +8,26 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Name</th>
                 <th>Color</th>
                 <th>Type</th>
-                <th>Active</th>
                 <th>Ordering</th>
-                <th>Icon</th>
-                <th>Created</th>
-                <th>Modified</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for category in categories %}
             <tr>
-                <td>{{ category.id }}</td>
                 <td>{{ category.name }}</td>
                 <td>{{ category.color }}</td>
-                <td>{{ category.type }}</td>
-                <td>{{ category.active }}</td>
+                {% if category.type == 0 %}
+                    <td>Revenue</td>
+                {% elseif category.type == 1 %}
+                    <td>Expense</td>
+                {% else %}
+                    <td>Transfer</td>
+                {% endif %}
                 <td>{{ category.ordering }}</td>
-                <td>{{ category.icon }}</td>
-                <td>{{ category.created ? category.created|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ category.modified ? category.modified|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('category_show', {'id': category.id}) }}">show</a>
                     <a href="{{ path('category_edit', {'id': category.id}) }}">edit</a>

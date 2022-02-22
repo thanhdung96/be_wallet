@@ -8,10 +8,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ category.id }}</td>
-            </tr>
-            <tr>
                 <th>Name</th>
                 <td>{{ category.name }}</td>
             </tr>
@@ -21,27 +17,17 @@
             </tr>
             <tr>
                 <th>Type</th>
-                <td>{{ category.type }}</td>
-            </tr>
-            <tr>
-                <th>Active</th>
-                <td>{{ category.active }}</td>
+                {% if category.type == 0 %}
+                    <td>Revenue</td>
+                {% elseif category.type == 1 %}
+                    <td>Expense</td>
+                {% else %}
+                    <td>Transfer</td>
+                {% endif %}
             </tr>
             <tr>
                 <th>Ordering</th>
                 <td>{{ category.ordering }}</td>
-            </tr>
-            <tr>
-                <th>Icon</th>
-                <td>{{ category.icon }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
-                <td>{{ category.created ? category.created|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Modified</th>
-                <td>{{ category.modified ? category.modified|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>

@@ -2,10 +2,71 @@
 
 {% block title %}New Category{% endblock %}
 
-{% block body %}
-    <h1>Create new Category</h1>
+{% block page_header %}
+    Create new Category
+{% endblock %}
 
-    {{ include('category/_form.html.twig') }}
+{% block body %}
+    {{ form_start(form, {'attr': {'class': 'form'}}) }}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label>Name</label>
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.name) %}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.name) }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Type</label>
+                <select class="form-control" id="category_type" name="category[type]">
+                    <option value="0" selected>Revenue</option>
+                    <option value="1">Expense</option>
+                    <option value="2">Transfer</option>
+                </select>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label>Ordering</label>
+                {{ form_widget(form.ordering, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.ordering) %}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.ordering) }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label >Color</label>
+                {{ form_widget(form.color, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="form-group">
+                <label >Icon</label>
+                {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.icon) %}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.icon) }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <button class="btn btn-primary" type="submit">Save</button>
+    {{ form_end(form) }}
 
     <a href="{{ path('category_index') }}">back to list</a>
 {% endblock %}

@@ -27,14 +27,14 @@ class Category
     /**
      * @var string|null
      *
-     * @ORM\Column(name="name", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
     /**
      * @var string|null
      *
-     * @ORM\Column(name="color", type="text", length=65535, nullable=true)
+     * @ORM\Column(name="color", type="string", length=255, nullable=true)
      */
     private $color;
 

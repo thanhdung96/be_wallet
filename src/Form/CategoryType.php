@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Category;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class CategoryType extends AbstractType
@@ -13,14 +14,9 @@ class CategoryType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('color')
-            ->add('type')
-            ->add('active')
+            ->add('color', ColorType::class)
             ->add('ordering')
             ->add('icon')
-            ->add('created')
-            ->add('modified')
-            ->add('account')
         ;
     }
 
@@ -28,6 +24,7 @@ class CategoryType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Category::class,
+            'allow_extra_fields' => true,
         ]);
     }
 }

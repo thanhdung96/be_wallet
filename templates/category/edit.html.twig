@@ -2,12 +2,60 @@
 
 {% block title %}Edit Category{% endblock %}
 
+{% block page_header %}
+    Edit Category
+{% endblock %}
+
 {% block body %}
-    <h1>Edit Category</h1>
+    {{ form_start(form, {'attr': {'class': 'form'}}) }}
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="form-group">
+                <label>Name</label>
+                {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.name) %}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.name) }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-    {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Ordering</label>
+                {{ form_widget(form.ordering, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.ordering) %}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.ordering) }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label >Color</label>
+                {{ form_widget(form.color, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="form-group">
+                <label>Icon</label>
+                {{ form_widget(form.icon, {'attr': {'class': 'form-control'}}) }}
+                {% if form_errors(form.icon) %}
+                    <small class="form-text text-muted">
+                        {{ form_errors(form.icon) }}
+                    </small>
+                {% endif %}
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('category_index') }}">back to list</a>
+    <button class="btn btn-primary" type="submit">Save</button>
+    {{ form_end(form) }}
 
     {{ include('category/_delete_form.html.twig') }}
+    <a href="{{ path('category_index') }}">back to list</a>
 {% endblock %}

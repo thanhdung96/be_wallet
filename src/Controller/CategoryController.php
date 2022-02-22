@@ -46,14 +46,17 @@ class CategoryController extends AbstractController
         $form = $this->createForm(CategoryType::class, $category);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $category->setAccount($this->getUser());
+        if($form->isSubmitted()){
+            $category->setType((int)$request->request->get('category')['type']);
+            if ($form->isValid()) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $category->setAccount($this->getUser());
 
-            $entityManager->persist($category);
-            $entityManager->flush();
+                $entityManager->persist($category);
+                $entityManager->flush();
 
-            return $this->redirectToRoute('category_index', [], Response::HTTP_SEE_OTHER);
+                return $this->redirectToRoute('category_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('category/new.html.twig', [

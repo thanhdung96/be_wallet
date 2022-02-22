@@ -20,10 +20,6 @@ class NewWalletType extends AbstractType
             ->add('color', ColorType::class)
             ->add('initialAmount')
             ->add('icon')
-            /*->add('account', EntityType::class, [
-                'class' => Account::class,
-                'choice_label' => 'name',
-            ])*/
         ;
     }
 
