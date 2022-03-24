@@ -3,11 +3,148 @@
 {% block title %}Edit Trans{% endblock %}
 
 {% block body %}
-    <h1>Edit Trans</h1>
+{{ form_start(form, {'attr': {'class': 'form'}}) }}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label>Type</label>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="trans[type]" id="typeRevenue" value="{{ constant('App\\Enums\\TransferTypes::REVENUE') }}">
+                <label class="form-check-label" for="typeRevenue">
+                    Revenue
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="trans[type]" id="typeExpense" value="{{ constant('App\\Enums\\TransferTypes::EXPENSE') }}">
+                <label class="form-check-label" for="typeExpense">
+                    Expense
+                </label>
+            </div>
+            <div class="form-check">
+                <input class="form-check-input" type="radio" name="trans[type]" id="typeTransfer" value="{{ constant('App\\Enums\\TransferTypes::TRANSFER') }}" checked>
+                <label class="form-check-label" for="typeTransfer">
+                    Transfer
+                </label>
+            </div>
+        </div>
+    </div>
+</div>
 
-    {{ include('trans/_form.html.twig', {'button_label': 'Update'}) }}
+<div class="row">
+    <div class="col-lg-6" id="fromWallet">
+        <div class="form-group">
+            <label>From</label>
+            <select class="form-control" id="trans_from_wallet" name="trans[wallet]">
+            {% for wallet in wallets %}
+                <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-6" id="toWallet">
+        <div class="form-group">
+            <label>To</label>
+            <select class="form-control" id="trans_to_wallet" name="trans[transferWallet]">
+            {% for wallet in wallets %}
+                <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+    </div>
+</div>
 
-    <a href="{{ path('trans_index') }}">back to list</a>
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label>Amount</label>
+            {{ form_widget(form.amount, {'attr': {'class': 'form-control'}}) }}
+            {% if form_errors(form.amount) %}
+                <small class="form-text text-muted">
+                    {{ form_errors(form.amount) }}
+                </small>
+            {% endif %}
+        </div>
+    </div>
+    <div class="col-lg-2" id="withFeeDiv">
+        <div class="form-check">
+            <input class="form-check-input" value="true" type="checkbox" checked name="trans[withFee]" id="withFee">
+            <label class="form-check-label" for="withFee">
+                Fee
+            </label>
+        </div>
+    </div>
+    <div class="col-lg-4" id="feeAmount">
+        <div class="form-group">
+            <label>Fee Amount</label>
+            {{ form_widget(form.fee, {'attr': {'class': 'form-control'}}) }}
+            {% if form_errors(form.fee) %}
+                <small class="form-text text-muted">
+                    {{ form_errors(form.fee) }}
+                </small>
+            {% endif %}
+        </div>
+    </div>
+</div>
 
-    {{ include('trans/_delete_form.html.twig') }}
+<div class="row">
+    <div class="col-lg-12">
+        <div class="form-group">
+            <label>Note</label>
+            {{ form_widget(form.note, {'attr': {'class': 'form-control'}}) }}
+            {% if form_errors(form.note) %}
+                <small class="form-text text-muted">
+                    {{ form_errors(form.note) }}
+                </small>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label>Category</label>
+            <select class="form-control" id="trans_to_wallet" name="trans[category]">
+                <optgroup label="Revenue">
+                    {% for category in categories %}
+                        {% if category.type == constant('App\\Enums\\TransferTypes::REVENUE') %}
+                            <option value="{{ category.id }}" data-trans-type="{{ category.type }}">
+                                {{ category.name }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </optgroup>
+                <optgroup label="Expense">
+                    {% for category in categories %}
+                        {% if category.type == constant('App\\Enums\\TransferTypes::EXPENSE') %}
+                            <option value="{{ category.id }}" data-trans-type="{{ category.type }}">
+                                {{ category.name }}
+                            </option>
+                        {% endif %}
+                    {% endfor %}
+                </optgroup>
+            </select>
+        </div>
+    </div>
+    <div class="col-lg-6">
+        <div class="form-group">
+            <label>Datetime</label>
+            <div class="input-group date" id="datetimepicker1" data-target-input="nearest">
+                {{ form_widget(form.dateTime, {'attr': {
+                        'class': 'form-control datetimepicker-input',
+                        'data-target':"#datetimepicker1"
+                    }})
+                }}
+                <div class="input-group-append" data-target="#datetimepicker1" data-toggle="datetimepicker">
+                    <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<button class="btn btn-primary" type="submit">Save</button>
+{{ form_end(form) }}
+
+<a href="{{ path('trans_index') }}">back to list</a>
 {% endblock %}

@@ -178,7 +178,20 @@ class TransController extends AbstractController
             'id' => $id,
             'account' => $this->getUser(),
         ]);
+
         if(!is_null($tran)){
+            $currentUser = $this->getUser();
+            $categories = $this->categoryRepository->findBy([
+                'active' => true,
+                'account' => $currentUser,
+            ]);
+            $wallets = $this->walletRepository->findBy([
+                'active' => true,
+                'account' => $currentUser,
+            ]);
+            $fromWallet = null;
+            $toWallet = null;
+
             $form = $this->createForm(TransType::class, $tran);
             $form->handleRequest($request);
 
@@ -190,6 +203,8 @@ class TransController extends AbstractController
 
             return $this->render('trans/edit.html.twig', [
                 'tran' => $tran,
+                'wallets' => $wallets,
+                'categories' => $categories,
                 'form' => $form->createView(),
             ]);
         } else {
@@ -209,5 +224,13 @@ class TransController extends AbstractController
         }
 
         return $this->redirectToRoute('trans_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    private function undoTransaction(Trans $trans){
+        
+    }
+
+    private function applyTransaction(Trans $trans){
+
     }
 }
