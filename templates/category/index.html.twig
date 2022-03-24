@@ -9,7 +9,6 @@
         <thead>
             <tr>
                 <th>Name</th>
-                <th>Color</th>
                 <th>Type</th>
                 <th>Ordering</th>
                 <th>actions</th>
@@ -17,9 +16,8 @@
         </thead>
         <tbody>
         {% for category in categories %}
-            <tr>
+            <tr style="background: {{ category.color }};">
                 <td>{{ category.name }}</td>
-                <td>{{ category.color }}</td>
                 {% if category.type == 0 %}
                     <td>Revenue</td>
                 {% elseif category.type == 1 %}

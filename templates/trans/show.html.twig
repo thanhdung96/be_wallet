@@ -17,31 +17,32 @@
             </tr>
             <tr>
                 <th>Type</th>
-                <td>{{ tran.type }}</td>
+                {% if tran.type == 0 %}
+                    <td>Revenue</td>
+                {% elseif tran.type == 1 %}
+                    <td>Expense</td>
+                {% else %}
+                    <td>Transfer</td>
+                {% endif %}
+
             </tr>
+            {% if tran.category is not null %}
+                <tr>
+                    <th>Category</th>
+                    <td>{{ tran.category.name }}</td>
+                </tr>
+            {% endif %}
             <tr>
                 <th>Amount</th>
                 <td>{{ tran.amount }}</td>
             </tr>
             <tr>
                 <th>DateTime</th>
-                <td>{{ tran.dateTime }}</td>
+                <td>{{ tran.dateTime ? tran.dateTime|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>Fee</th>
                 <td>{{ tran.fee }}</td>
-            </tr>
-            <tr>
-                <th>TransAmount</th>
-                <td>{{ tran.transAmount }}</td>
-            </tr>
-            <tr>
-                <th>DebtId</th>
-                <td>{{ tran.debtId }}</td>
-            </tr>
-            <tr>
-                <th>DebtTransId</th>
-                <td>{{ tran.debtTransId }}</td>
             </tr>
             <tr>
                 <th>Created</th>

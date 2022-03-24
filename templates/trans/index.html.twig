@@ -24,7 +24,13 @@
             <tr>
                 <td>{{ tran.id }}</td>
                 <td>{{ tran.note }}</td>
-                <td>{{ tran.type }}</td>
+                {% if tran.type == 0 %}
+                    <td>Revenue</td>
+                {% elseif tran.type == 1 %}
+                    <td>Expense</td>
+                {% else %}
+                    <td>Transfer</td>
+                {% endif %}
                 <td>{{ tran.amount }}</td>
                 <td>{{ tran.dateTime ? tran.dateTime|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ tran.fee }}</td>

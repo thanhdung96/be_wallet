@@ -28,21 +28,30 @@ class TransController extends AbstractController
      */
     private $categoryRepository;
 
+    /**
+     * @var TransRepository
+     */
+    private $transRepository;
+
     public function __construct(WalletRepository $walletRepository,
-                                CategoryRepository $categoryRepository){
+                                CategoryRepository $categoryRepository,
+                                TransRepository $transRepository){
         $this->walletRepository = $walletRepository;
         $this->categoryRepository = $categoryRepository;
+        $this->transRepository = $transRepository;
     }
 
     /**
      * @Route("/", name="trans_index", methods={"GET"})
      */
-    public function index(TransRepository $transRepository): Response
+    public function index(): Response
     {
+        $lstTrans = $this->transRepository->findBy([
+                        'account' => $this->getUser(),
+                    ]);
+
         return $this->render('trans/index.html.twig', [
-            'trans' => $transRepository->findBy([
-                'account' => $this->getUser(),
-            ]),
+            'trans' => $lstTrans,
         ]);
     }
 
@@ -115,6 +124,12 @@ class TransController extends AbstractController
             }
 
             $tran->setAccount($currentUser);
+            $tran->setType($data['type']);
+            $tran->setCategory($this->categoryRepository->findOneBy([
+                'id' => $data['category'],
+                'account' => $currentUser,
+                'active' => true
+            ]));
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($fromWallet);
             if(!is_null($toWallet)){
@@ -137,31 +152,49 @@ class TransController extends AbstractController
     /**
      * @Route("/{id}", name="trans_show", methods={"GET"})
      */
-    public function show(Trans $tran): Response
+    public function show($id): Response
     {
-        return $this->render('trans/show.html.twig', [
-            'tran' => $tran,
+        $tran = $this->transRepository->findOneBy([
+            'id' => $id,
+            'account' => $this->getUser(),
         ]);
+
+        if(is_null($tran)){
+            return $this->redirectToRoute('trans_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            return $this->render('trans/show.html.twig', [
+                'tran' => $tran,
+                'account' => $this->getUser(),
+            ]);
+        }
     }
 
     /**
      * @Route("/{id}/edit", name="trans_edit", methods={"GET","POST"})
      */
-    public function edit(Request $request, Trans $tran): Response
+    public function edit(Request $request, $id): Response
     {
-        $form = $this->createForm(TransType::class, $tran);
-        $form->handleRequest($request);
+        $tran = $this->transRepository->findOneBy([
+            'id' => $id,
+            'account' => $this->getUser(),
+        ]);
+        if(!is_null($tran)){
+            $form = $this->createForm(TransType::class, $tran);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+            if ($form->isSubmitted() && $form->isValid()) {
+                $this->getDoctrine()->getManager()->flush();
 
+                return $this->redirectToRoute('trans_index', [], Response::HTTP_SEE_OTHER);
+            }
+
+            return $this->render('trans/edit.html.twig', [
+                'tran' => $tran,
+                'form' => $form->createView(),
+            ]);
+        } else {
             return $this->redirectToRoute('trans_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        return $this->render('trans/edit.html.twig', [
-            'tran' => $tran,
-            'form' => $form->createView(),
-        ]);
     }
 
     /**
