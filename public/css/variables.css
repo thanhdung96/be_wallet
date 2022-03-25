@@ -1,0 +1,12 @@
+/* input css variable for all platform here */
+body {
+    --clr-cyan: #00ac96;
+    --clr-txt: #495047;
+
+    --clr-white: #fff;
+    --clr-black: #000;
+    --clr-error: #D82148;
+    --clr-light-grey: #C0C0C0;
+}
+
+/* variables for breakpoint */

@@ -1,0 +1,57 @@
+/* Input your own customize css for login page + login form */
+body {
+    height: 100vh!important;
+    background-color: var(--clr-cyan)!important;
+}
+
+.signIn {
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+
+.signIn .header {
+    --primary-color: var(--clr-cyan);
+    color: black;
+}
+
+.signIn .content {
+    background-color: var(--clr-white)!important;
+    border-radius: 15px;
+    padding: 3rem 1.2rem;
+}
+
+.signIn-form {
+    --clr-light-grey: #C0C0C0;
+    width: 80%;
+}
+
+.signIn-form .form-label {
+    margin-bottom: 0.6rem;
+}
+
+.signIn-form .signIn-input {
+    background-color: var(--clr-white);
+    border-radius: 0;
+    border-color: var(--clr-light-grey);
+    border-bottom-width: 1.4px!important;
+}
+
+.signIn-form .signIn-input:focus {
+    border-color: var(--clr-cyan);
+    background-color: var(--clr-white);
+}
+
+.signUp-text-flex {
+    display: flex;
+    gap: 5px;
+}
+
+.signUp-text .signUp-link {
+    color: var(--clr-cyan);
+    font-weight: normal;
+    text-transform: capitalize;
+}
+.signUp-text .signUp-link:hover {
+    font-weight: 800;
+}
