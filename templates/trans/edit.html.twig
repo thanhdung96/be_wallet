@@ -9,19 +9,22 @@
         <div class="form-group">
             <label>Type</label>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="trans[type]" id="typeRevenue" value="{{ constant('App\\Enums\\TransferTypes::REVENUE') }}">
+                <input class="form-check-input" {% if tran.type == constant('App\\Enums\\TransferTypes::REVENUE') %} checked {% endif %}
+                    type="radio" name="trans[type]" id="typeRevenue" value="{{ constant('App\\Enums\\TransferTypes::REVENUE') }}">
                 <label class="form-check-label" for="typeRevenue">
                     Revenue
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="trans[type]" id="typeExpense" value="{{ constant('App\\Enums\\TransferTypes::EXPENSE') }}">
+                <input class="form-check-input" {% if tran.type == constant('App\\Enums\\TransferTypes::EXPENSE') %} checked {% endif %}
+                    type="radio" name="trans[type]" id="typeExpense" value="{{ constant('App\\Enums\\TransferTypes::EXPENSE') }}">
                 <label class="form-check-label" for="typeExpense">
                     Expense
                 </label>
             </div>
             <div class="form-check">
-                <input class="form-check-input" type="radio" name="trans[type]" id="typeTransfer" value="{{ constant('App\\Enums\\TransferTypes::TRANSFER') }}" checked>
+                <input class="form-check-input" {% if tran.type == constant('App\\Enums\\TransferTypes::TRANSFER') %} checked {% endif %}
+                    type="radio" name="trans[type]" id="typeTransfer" value="{{ constant('App\\Enums\\TransferTypes::TRANSFER') }}">
                 <label class="form-check-label" for="typeTransfer">
                     Transfer
                 </label>
@@ -36,7 +39,9 @@
             <label>From</label>
             <select class="form-control" id="trans_from_wallet" name="trans[wallet]">
             {% for wallet in wallets %}
-                <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+                <option value="{{ wallet.id }}" {% if tran.wallet.id == wallet.id %} selected {% endif %}>
+                    {{ wallet.name }}
+                </option>
             {% endfor %}
             </select>
         </div>
@@ -45,9 +50,17 @@
         <div class="form-group">
             <label>To</label>
             <select class="form-control" id="trans_to_wallet" name="trans[transferWallet]">
-            {% for wallet in wallets %}
-                <option value="{{ wallet.id }}">{{ wallet.name }}</option>
-            {% endfor %}
+            {% if tran.transferWallet is not null %}
+                {% for wallet in wallets %}
+                    <option value="{{ wallet.id }}" {% if tran.transferWallet.id == wallet.id %} selected {% endif %}>
+                        {{ wallet.name }}
+                    </option>
+                {% endfor %}
+            {% else %}
+                {% for wallet in wallets %}
+                    <option value="{{ wallet.id }}">{{ wallet.name }}</option>
+                {% endfor %}
+            {% endif %}
             </select>
         </div>
     </div>
@@ -144,6 +157,7 @@
 </div>
 
 <button class="btn btn-primary" type="submit">Save</button>
+<input value="{{ tran.id }}" type="hidden" name="trans[id]" id="trans_id">
 {{ form_end(form) }}
 
 <a href="{{ path('trans_index') }}">back to list</a>
