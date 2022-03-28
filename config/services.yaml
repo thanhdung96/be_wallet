@@ -17,18 +17,22 @@ services:
         resource: '../src/'
         exclude:
             - '../src/DependencyInjection/'
-            - '../src/Entity/'
+            - '../src/MainBundle/Entity/'
             - '../src/Kernel.php'
             - '../src/Tests/'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
-    App\Controller\:
-        resource: '../src/Controller/'
+    App\MainBundle\Controller\:
+        resource: '../src/MainBundle/Controller/'
         tags: ['controller.service_arguments']
 
-    App\Repository\:
-        resource: '../src/Repository/'
+    App\ApiBundle\Controller\:
+        resource: '../src/ApiBundle/Controller/'
+        tags: ['controller.service_arguments']
+
+    App\MainBundle\Repository\:
+        resource: '../src/MainBundle/Repository/'
         tags: ['repository.service_arguments']
 
     # add more service definitions when explicit configuration is needed

@@ -1,6 +1,6 @@
 security:
     encoders:
-        App\Entity\Account:
+        App\MainBundle\Entity\Account:
             algorithm: bcrypt
 
     # https://symfony.com/doc/current/security.html#where-do-users-come-from-user-providers
@@ -8,11 +8,11 @@ security:
         # used to reload user from session & other features (e.g. switch_user)
         app_user_email_provider:
             entity:
-                class: App\Entity\Account
+                class: App\MainBundle\Entity\Account
                 property: email
         app_user_name_provider:
             entity:
-                class: App\Entity\Account
+                class: App\MainBundle\Entity\Account
                 property: name
     firewalls:
         dev:
@@ -24,7 +24,7 @@ security:
             provider: app_user_email_provider
             guard:
                 authenticators:
-                    - App\Security\LoginFormAuthenticator
+                    - App\MainBundle\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
         main_name:
@@ -33,7 +33,7 @@ security:
             provider: app_user_name_provider
             guard:
                 authenticators:
-                    - App\Security\LoginFormAuthenticator
+                    - App\MainBundle\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
                 # where to redirect after logout

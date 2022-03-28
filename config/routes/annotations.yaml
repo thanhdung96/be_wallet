@@ -1,5 +1,9 @@
-controllers:
-    resource: ../../src/Controller/
+controllers_main:
+    resource: ../../src/MainBundle/Controller/
+    type: annotation
+
+controllers_api:
+    resource: ../../src/ApiBundle/Controller/
     type: annotation
 
 kernel:
