@@ -96,12 +96,11 @@
         nav
       >
         <div>
-          <app-bar-item
-            v-for="(n, i) in notifications"
-            :key="`item-${i}`"
-          >
-            <v-list-item-title v-text="n" />
-          </app-bar-item>
+			<app-bar-item v-for="route in routes">
+				<router-link :to="{ name: route.route }">
+					{{ route.text }}
+				</router-link>
+			</app-bar-item>
         </div>
       </v-list>
     </v-menu>
@@ -160,15 +159,20 @@
       },
     },
 
-    data: () => ({
-      notifications: [
-        'Mike John Responded to your email',
-        'You have 5 new tasks',
-        'You\'re now friends with Andrew',
-        'Another Notification',
-        'Another one',
-      ],
-    }),
+    data () {
+		return {
+			routes: [
+				{
+					route: 'Profile',
+					text: 'User profile',
+				},
+				{
+					route: 'Logout',
+					text: 'Logout',
+				},
+			],
+		}
+	},
 
     computed: {
       ...mapState(['drawer']),

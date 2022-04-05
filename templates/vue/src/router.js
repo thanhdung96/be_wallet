@@ -19,7 +19,7 @@ export const router = new Router({
         },
         // Pages
         {
-          name: 'User Profile',
+          name: 'Profile',
           path: 'profile',
           component: () => import('@/views/dashboard/pages/UserProfile'),
         },
@@ -35,6 +35,12 @@ export const router = new Router({
 				name: 'Login',
 				path: 'login',
 				component: () => import('@/views/Security/Login'),
+			},
+			// Logout
+			{
+				name: 'Logout',
+				path: 'logout',
+				component: () => import('@/views/Security/Logout'),
 			},
 			// Register
 			{
