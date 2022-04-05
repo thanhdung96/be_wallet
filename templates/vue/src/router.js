@@ -35,6 +35,7 @@ export const router = new Router({
 				name: 'Login',
 				path: 'login',
 				component: () => import('@/views/Security/Login'),
+				props: true,
 			},
 			// Logout
 			{

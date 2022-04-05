@@ -1,7 +1,7 @@
 <template>
 	<v-card class="elevation-12">
 	   <v-toolbar dark color="primary">
-		  <v-toolbar-title>Login form</v-toolbar-title>
+		  <v-toolbar-title>Login</v-toolbar-title>
 	   </v-toolbar>
 	   <v-card-text>
 	   <form ref="form" @submit.prevent="login">
@@ -34,9 +34,17 @@
 			>
 				{{ errorMessage }}
 			</v-alert>
-			 <v-btn type="submit" class="mt-4" color="primary" value="log in">
-				 Login
-			 </v-btn>
+			<v-col class="text-right">
+				 <v-btn type="submit" class="mt-4" color="primary" value="log in">
+					 Login
+				 </v-btn>
+				 <p class="pt-5">
+					 Not a member?
+					 <router-link :to="{ name: 'Register' }">
+						 Signup now
+					 </router-link>
+				 </p>
+			 </v-col>
 		</form>
 	   </v-card-text>
    </v-card>
@@ -50,10 +58,13 @@ import { router } from '../../router'
 export default {
 	name: "UserLogin",
 
+	props: {
+		username: null,
+	},
+
 	data () {
 		return {
-			username: "",
-			password: "",
+			password: null,
 			errorMessage: null,
 		}
 	},

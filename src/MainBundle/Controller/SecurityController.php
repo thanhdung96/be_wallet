@@ -6,6 +6,7 @@ use App\MainBundle\Entity\Account;
 use App\MainBundle\Form\AccountType;
 use App\MainBundle\Repository\AccountRepository;
 use App\MainBundle\Repository\DefaultCategoryRepository;
+use App\MainBundle\Traits\DefaultCategoryTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,6 +16,8 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+	use DefaultCategoryTrait;
+
     /**
      * @var AccountRepository
      */
@@ -96,7 +99,10 @@ class SecurityController extends AbstractController
             $entityManager->flush();
 
             // add custom user categories
-            $userCategories = $this->makeUserCategories($account);
+            $userCategories = $this->makeUserCategories(
+								$account,
+								$this->defaultCategoryRepository->findAll()
+							);
             foreach ($userCategories as $userCategory) {
                 $entityManager->persist($userCategory);
             }
@@ -118,20 +124,5 @@ class SecurityController extends AbstractController
             'account' => $account,
             'form' => $form->createView(),
         ]);
-    }
-
-
-    private function makeUserCategories(Account $account): array{
-        $defaultCategories = $this->defaultCategoryRepository->findAll();
-        $userCategories = [];
-
-        foreach ($defaultCategories as $defaultCategory) {
-            $userCategory = $defaultCategory->toUserCategory();
-            $userCategory->setAccount($account);
-
-            $userCategories[] = $userCategory;
-        }
-
-        return $userCategories;
     }
 }

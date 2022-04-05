@@ -22,4 +22,7 @@ export default new Vuetify({
       light: theme,
     },
   },
+  icons: {
+	  iconfont: 'mdiSvg',
+  }
 })
