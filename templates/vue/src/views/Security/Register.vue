@@ -92,7 +92,7 @@ export default {
 	},
 
 	mounted() {
-		let url = this.$hostname + '/api/currency';
+		let url = process.env.VUE_APP_ROOT_API + '/api/currency';
 
 		axios
 			.get(url)
