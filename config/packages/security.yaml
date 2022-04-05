@@ -22,7 +22,17 @@ security:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
-        main_email:
+        main_api:
+            pattern: ^/api/
+            stateless: true
+            provider: app_user_api_provider
+            guard:
+                authenticators:
+                    - App\ApiBundle\Security\JwtAuthenticator
+                # where to redirect after logout
+                # target: app_any_route
+        main:
+            pattern: ^/
             anonymous: true
             lazy: true
             provider: app_user_email_provider
@@ -31,23 +41,6 @@ security:
                     - App\MainBundle\Security\LoginFormAuthenticator
             logout:
                 path: app_logout
-        main_api:
-            pattern: ^/api
-            provider: app_user_api_provider
-            guard:
-                authenticators:
-                    - App\ApiBundle\Security\JwtAuthenticator
-        main_name:
-            anonymous: true
-            lazy: true
-            provider: app_user_name_provider
-            guard:
-                authenticators:
-                    - App\MainBundle\Security\LoginFormAuthenticator
-            logout:
-                path: app_logout
-                # where to redirect after logout
-                # target: app_any_route
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication
@@ -60,4 +53,7 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: [ROLE_USER, ROLE_ADMIN] }
-        # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/auth/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/auth/register, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/public/api, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, role: IS_AUTHENTICATED_FULLY }

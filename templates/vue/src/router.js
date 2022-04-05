@@ -23,6 +23,12 @@ export const router = new Router({
           path: 'profile',
           component: () => import('@/views/dashboard/pages/UserProfile'),
         },
+		// Category
+        {
+          name: 'Category',
+          path: 'category',
+          component: () => import('@/views/dashboard/pages/Category'),
+        },
       ],
     },
 	// authentication route

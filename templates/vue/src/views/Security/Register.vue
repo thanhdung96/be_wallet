@@ -73,9 +73,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import { router } from '../../router'
+import { customAxios } from '@/axios'
+import { router } from '@/router'
 
 export default {
 	name: "UserRegister",
@@ -92,10 +91,8 @@ export default {
 	},
 
 	mounted() {
-		let url = process.env.VUE_APP_ROOT_API + '/api/currency';
-
-		axios
-			.get(url)
+		customAxios
+			.get('/public/api/currency')
 			.then(response => {
 				this.currencies = response.data.currencies
 			})
@@ -109,10 +106,9 @@ export default {
 				password: this.password,
 				defaultCurrency: this.defaultCurrency
 			};
-			let url = process.env.VUE_APP_ROOT_API + '/api/auth/register';
 
-			axios
-				.post(url, data)
+			customAxios
+				.post('/auth/register', data)
 				.then(response => {
 					router.push({ name: 'Login', params: { username: this. username } });
 				})
