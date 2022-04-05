@@ -101,10 +101,10 @@
           title: 'dashboard',
           to: '/user/',
         },
-        {
-          icon: 'mdi-account',
-          title: 'user',
-          to: '/user/profile',
+		{
+          icon: 'mdi-view-dashboard',
+          title: 'Category',
+          to: '/user/category',
         },
       ],
     }),

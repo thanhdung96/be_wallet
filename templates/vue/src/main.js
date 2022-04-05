@@ -20,8 +20,7 @@ import './plugins/chartist'
 import './plugins/vee-validate'
 import vuetify from './plugins/vuetify'
 import i18n from './i18n'
-import axios from 'axios'
-import VueAxios from 'vue-axios'
+import swal from 'sweetalert';
 
 Vue.config.productionTip = false
 

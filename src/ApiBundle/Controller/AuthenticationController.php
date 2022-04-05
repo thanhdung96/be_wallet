@@ -17,7 +17,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
- * @Route("/api/auth")
+ * @Route("/auth")
  */
 class AuthenticationController extends AbstractController {
 	use DefaultCategoryTrait;
@@ -133,8 +133,8 @@ class AuthenticationController extends AbstractController {
 
 		// the authentication token always has email value to authenticate in next steps
 		$payload = [
-			"account" => $account->getUsername(),
-			"exp"  => (new \DateTime())->modify("+5 minutes")->getTimestamp(),
+			"account" => $account->getName(),
+			"exp"  => (new \DateTime())->modify("+60 minutes")->getTimestamp(),
 		];
 		$jwt = JWT::encode($payload, $this->getParameter('jwt_secret'), 'HS512');
 
@@ -142,6 +142,7 @@ class AuthenticationController extends AbstractController {
 			[
 				'token' => sprintf('Bearer %s', $jwt),
 				'username' => $account->getName(),
+				'payload' => $payload
 			],
 			Response::HTTP_OK
 		);

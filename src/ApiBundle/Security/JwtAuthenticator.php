@@ -5,10 +5,12 @@ namespace App\ApiBundle\Security;
 use App\MainBundle\Entity\Account;
 use App\MainBundle\Repository\AccountRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Firebase\JWT\Key;
 use Firebase\JWT\JWT;
 use Symfony\Component\DependencyInjection\ParameterBag\ContainerBagInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -48,22 +50,34 @@ class JwtAuthenticator extends AbstractGuardAuthenticator{
 
 	public function getUser($credentials, UserProviderInterface $userProvider) {
 		try {
-            $credentials = str_replace('Bearer ', '', $credentials);
-            $jwt = (array) JWT::decode(
-                $credentials,
-                $this->params->get('jwt_secret'),
-                ['HS512']
-            );
+			$credentials = str_replace('Bearer ', '', $credentials);
+			$jwt = (array)JWT::decode(
+				$credentials,
+				new Key(
+					$this->params->get('jwt_secret'),
+					'HS512'
+				)
+			);
 
-            return $this->accountRepository->findOneBy([
-                'email' => $jwt['user'],
-            ]);
-        }catch (\Exception $exception) {
-            throw new AuthenticationException($exception->getMessage());
-        }
+			return $this->accountRepository->findOneBy([
+				'name' => $jwt['account'],
+			]);
+		}catch (\Exception $exception) {
+			throw new AuthenticationException($exception->getMessage());
+		}
 	}
 
 	public function checkCredentials($credentials, UserInterface $user) {
+		$credentials = str_replace('Bearer ', '', $credentials);
+		$jwt = (array)JWT::decode(
+			$credentials,
+			new Key(
+				$this->params->get('jwt_secret'),
+				'HS512'
+			)
+		);
+
+		return $jwt['account'] === $user->getName();
 	}
 
 	public function onAuthenticationFailure(Request $request, AuthenticationException $exception) {

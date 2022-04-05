@@ -51,9 +51,8 @@
 </template>
 
 <script>
-import axios from 'axios'
-import VueAxios from 'vue-axios'
-import { router } from '../../router'
+import { customAxios } from '@/axios'
+import { router } from '@/router'
 
 export default {
 	name: "UserLogin",
@@ -69,10 +68,6 @@ export default {
 		}
 	},
 
-	mounted() {
-		console.log(process.env.VUE_APP_ROOT_API);
-	},
-
 	methods: {
 		login(event) {
 			if(event){
@@ -80,13 +75,15 @@ export default {
 					email: this.username,
 					password: this.password
 				};
-				let url = process.env.VUE_APP_ROOT_API + '/api/auth/login';
 
-				axios.
-					post(url,  data).
+				customAxios.
+					post('/auth/login',  data).
 					then(response => {
 						if(response.data.token){
 							localStorage.setItem('user', JSON.stringify(response.data));
+							let authToken = JSON.parse(localStorage.getItem('user'))['token'];
+							customAxios.defaults.headers.common['Authorization'] = authToken;
+
 							router.push({name: 'Dashboard'});
 						}
 					}).
