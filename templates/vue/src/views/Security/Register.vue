@@ -109,13 +109,16 @@ export default {
 				password: this.password,
 				defaultCurrency: this.defaultCurrency
 			};
-			let url = this.$hostname + '/api/auth/register';
+			let url = process.env.VUE_APP_ROOT_API + '/api/auth/register';
 
 			axios
 				.post(url, data)
 				.then(response => {
 					router.push({ name: 'Login', params: { username: this. username } });
-				});
+				})
+				.catch(
+					error => this.errorMessage = error.response.data.message
+				);
 		},
 
 		resetMessage(event) {

@@ -69,6 +69,10 @@ export default {
 		}
 	},
 
+	mounted() {
+		console.log(process.env.VUE_APP_ROOT_API);
+	},
+
 	methods: {
 		login(event) {
 			if(event){
@@ -76,7 +80,7 @@ export default {
 					email: this.username,
 					password: this.password
 				};
-				let url = this.$hostname + '/api/auth/login';
+				let url = process.env.VUE_APP_ROOT_API + '/api/auth/login';
 
 				axios.
 					post(url,  data).
