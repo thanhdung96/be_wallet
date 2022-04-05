@@ -12,7 +12,7 @@ use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
 use Symfony\Component\Serializer\Serializer;
 
 /**
- * @Route("/api/currency")
+ * @Route("/public/api/currency")
  */
 class ApiCurrencyController extends AbstractController {
     /**
