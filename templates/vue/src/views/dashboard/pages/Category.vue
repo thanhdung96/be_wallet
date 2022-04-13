@@ -44,7 +44,6 @@
 			:is-update="isUpdate"
 		/>
 	</v-card>
-
 </template>
 
 <script>
