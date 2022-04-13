@@ -8,6 +8,7 @@ use App\MainBundle\Repository\AccountRepository;
 use App\MainBundle\Repository\CurrencyRepository;
 use App\MainBundle\Repository\DefaultCategoryRepository;
 use App\MainBundle\Traits\DefaultCategoryTrait;
+use Firebase\JWT\Key;
 use Firebase\JWT\JWT;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -132,18 +133,75 @@ class AuthenticationController extends AbstractController {
 		}
 
 		// the authentication token always has email value to authenticate in next steps
-		$payload = [
+		$accessPayload = [
 			"account" => $account->getName(),
 			"exp"  => (new \DateTime())->modify("+60 minutes")->getTimestamp(),
 		];
-		$jwt = JWT::encode($payload, $this->getParameter('jwt_secret'), 'HS512');
+		$accessToken = JWT::encode($accessPayload, $this->getParameter('jwt_secret'), 'HS512');
+		
+		$refreshPayload = [
+			"account" => $account->getName(),
+			"exp"  => (new \DateTime())->modify("+24 hours")->getTimestamp(),
+		];
+		$refreshToken = JWT::encode($refreshPayload, $this->getParameter('jwt_secret'), 'HS256');
 
 		return new JsonResponse(
 			[
-				'token' => sprintf('Bearer %s', $jwt),
+				'token' => sprintf('Bearer %s', $accessToken),
+				'refreshToken' => $refreshToken,
 				'username' => $account->getName(),
 			],
 			Response::HTTP_OK
 		);
+	}
+
+	/**
+	 * @Route("/refresh", name="api_refresh", methods={"POST"})
+	 */
+	public function refreshAccessToken(Request $request): JsonResponse{
+		$data = json_decode($request->getContent());
+
+		try{
+			$jwt = (array)JWT::decode(
+				$data->refreshToken,
+				new Key(
+					$this->params->get('jwt_secret'),
+					'HS256'
+				)
+			);
+
+			// if the username decoded in the token is different from username sent along with the request
+			// reject the request
+			if($jwt['account'] != $data->username){
+				return new JsonResponse(
+					[
+						'message' => 'Malformed token',
+					],
+					Response::HTTP_UNAUTHORIZED
+				);
+			} else {
+				$accessPayload = [
+					"account" => $data->username,
+					"exp"  => (new \DateTime())->modify("+60 minutes")->getTimestamp(),
+				];
+				$accessToken = JWT::encode($accessPayload, $this->getParameter('jwt_secret'), 'HS512');
+
+				return new JsonResponse(
+					[
+						'token' => sprintf('Bearer %s', $accessToken),
+						'refreshToken' => $data->refreshToken,
+						'username' => $data->username,
+					],
+					Response::HTTP_OK
+				);
+			}
+		} catch (\Exception $exception){
+			return new JsonResponse(
+				[
+					'message' => $exception->getMessage(),
+				],
+				Response::HTTP_UNAUTHORIZED
+			);
+		}
 	}
 }
