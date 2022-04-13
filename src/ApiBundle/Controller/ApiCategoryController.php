@@ -102,6 +102,7 @@ class ApiCategoryController extends AbstractController {
 			$category = new Category();
 
 			$category->setType($data->type);
+			$category->setAccount($this->getUser());
 		} else {
 			$category = $this->categoryRepository->findOneBy([
 				'id' => $data->id,

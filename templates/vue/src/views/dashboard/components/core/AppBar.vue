@@ -96,7 +96,7 @@
         nav
       >
         <div>
-			<app-bar-item v-for="route in routes">
+			<app-bar-item v-for="route in routes" :key="route.route">
 				<router-link :to="{ name: route.route }">
 					{{ route.text }}
 				</router-link>

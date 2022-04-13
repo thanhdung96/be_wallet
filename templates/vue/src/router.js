@@ -14,7 +14,7 @@ export const router = new Router({
         // Dashboard
         {
           name: 'Dashboard',
-          path: '',
+          path: 'home',
           component: () => import('@/views/dashboard/Dashboard'),
         },
         // Pages
@@ -29,7 +29,13 @@ export const router = new Router({
           path: 'category',
           component: () => import('@/views/dashboard/pages/Category'),
         },
-      ],
+		// Wallet
+        {
+			name: 'Wallet',
+			path: 'wallet',
+			component: () => import('@/views/dashboard/pages/Wallet'),
+		  },
+		],
     },
 	// authentication route
 	{
@@ -60,7 +66,7 @@ export const router = new Router({
 	// default route
 	{
 		path: '*',
-		redirect: '/user'
+		redirect: '/user/home'
 	}
   ],
 });
