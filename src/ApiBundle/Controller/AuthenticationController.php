@@ -165,7 +165,7 @@ class AuthenticationController extends AbstractController {
 			$jwt = (array)JWT::decode(
 				$data->refreshToken,
 				new Key(
-					$this->params->get('jwt_secret'),
+					$this->getParameter('jwt_secret'),
 					'HS256'
 				)
 			);
