@@ -142,7 +142,6 @@ class AuthenticationController extends AbstractController {
 			[
 				'token' => sprintf('Bearer %s', $jwt),
 				'username' => $account->getName(),
-				'payload' => $payload
 			],
 			Response::HTTP_OK
 		);
