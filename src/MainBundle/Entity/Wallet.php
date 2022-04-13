@@ -243,6 +243,7 @@ class Wallet
 
     public function __construct() {
         $currentDateTime = new \DateTime();
+        $this->initialAmount = 0;
         $this->created = $currentDateTime;
         $this->modified = $currentDateTime;
         $this->color = '#000';

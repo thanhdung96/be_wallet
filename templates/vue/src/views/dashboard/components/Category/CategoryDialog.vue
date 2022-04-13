@@ -25,7 +25,7 @@
 				></v-text-field>
 
 				<v-select
-					v-model="decoration.type"
+					v-model="decoration.categoryType"
 					:items="type"
 					item-text="name"
 					item-value="id"
@@ -150,26 +150,26 @@ export default {
 						rootComponent.category.id = returnedData.id;
 						rootComponent.category.name = returnedData.name;
 						rootComponent.category.type = returnedData.type;
-						rootComponent.decoration.type = rootComponent.type[returnedData.type];
+						rootComponent.decoration.categoryType = rootComponent.type[returnedData.type];
 						rootComponent.category.colour = returnedData.color;
 					});
 			}
 		},
 
 		saveCategory(){
-			let rootComponent = this;
-
 			let data = {
-				id: rootComponent.category.id,
-				name: rootComponent.category.name,
-				type: rootComponent.category.type,
-				colour: rootComponent.category.colour
+				id: this.category.id,
+				name: this.category.name,
+				type: this.decoration.categoryType,
+				colour: this.category.colour
 			};
+			console.log(data);
 
 			customAxios
 				.post('api/category/save', data)
 				.then(response => {
 					swal("Success", 'Category saved', 'success');
+					// TODO: update list after success
 					if(isUpdate){
 
 					} else {
@@ -177,7 +177,7 @@ export default {
 					}
 				})
 				.catch(error => {
-					console.log('Something went wrong', error.data, 'error');
+					swal("Oops", error.data, 'error');
 				});
 		}
 	},

@@ -215,6 +215,8 @@ class Category
         $currentDateTime = new \DateTime();
         $this->created = $currentDateTime;
         $this->modified = $currentDateTime;
+        $this->ordering = 0;
+        $this->icon = 0;
         $this->active = true;
     }
 
