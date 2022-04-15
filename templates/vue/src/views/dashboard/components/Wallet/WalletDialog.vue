@@ -9,7 +9,6 @@
 			<v-card-text>
 				<UserWalletCard
 					:wallet-id="walletId"
-					:is-shown="show"
 				/>
 			</v-card-text>
 		</v-card>
@@ -38,10 +37,6 @@ export default {
 				modalTitle: null,
 			}
 		}
-	},
-
-	created() {
-
 	},
 
 	beforeUpdate() {
