@@ -70,7 +70,6 @@ export default {
 
 	props: {
 		walletId: Number,
-		isShown: Boolean,
 	},
 
 	data() {
