@@ -75,4 +75,7 @@ class Currency
         return $this;
     }
 
+    public function __construct() {
+        $this->id = -1;
+    }
 }

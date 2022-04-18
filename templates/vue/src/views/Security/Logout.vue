@@ -10,6 +10,7 @@ export default {
 	mounted() {
 		if(localStorage.getItem('user')){
 			localStorage.removeItem('user');
+			localStorage.removeItem('setting');
 			router.push({name: 'Login'});
 		}
 	}
