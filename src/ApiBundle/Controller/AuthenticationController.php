@@ -16,11 +16,17 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\Serializer\Encoder\JsonEncoder;
+use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
+use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
+use Symfony\Component\Serializer\Serializer;
 
 /**
  * @Route("/auth")
  */
 class AuthenticationController extends AbstractController {
+	private const IGNORED_ATTRIBUTES = ['created', 'modified', 'account'];
+
 	use DefaultCategoryTrait;
 
 	/**
@@ -37,6 +43,23 @@ class AuthenticationController extends AbstractController {
 	 * @var DefaultCategoryRepository
 	 */
 	private $defaultCategoryRepository;
+
+	private function getSerializer(): Serializer{
+		$encoders = [new JsonEncoder()];
+		$normalizers = [new ObjectNormalizer()];
+
+		return new Serializer($normalizers, $encoders);
+	}
+
+	private function serializeWalletToJson($wallet){
+		$serialsed = $this->getSerializer()->serialize(
+			$wallet,
+			JsonEncoder::FORMAT,
+			[AbstractNormalizer::IGNORED_ATTRIBUTES => $this::IGNORED_ATTRIBUTES]
+		);
+
+		return json_decode($serialsed, true);
+	}
 
 	public function __construct(AccountRepository $accountRepository, CurrencyRepository $currencyRepository, DefaultCategoryRepository $defaultCategoryRepository) {
 		$this->accountRepository = $accountRepository;
@@ -147,9 +170,13 @@ class AuthenticationController extends AbstractController {
 
 		return new JsonResponse(
 			[
-				'token' => sprintf('Bearer %s', $accessToken),
-				'refreshToken' => $refreshToken,
-				'username' => $account->getName(),
+				'token' =>
+					[
+						'token' => sprintf('Bearer %s', $accessToken),
+						'refreshToken' => $refreshToken,
+						'username' => $account->getName(),
+					],
+				'setting' => $this->serializeWalletToJson($account->getSetting())
 			],
 			Response::HTTP_OK
 		);

@@ -80,10 +80,14 @@ export default {
 					post('/auth/login',  data).
 					then(response => {
 						if(response.data.token){
-							localStorage.setItem('user', JSON.stringify(response.data));
+							localStorage.setItem('user', JSON.stringify(response.data.token));
 							let authToken = JSON.parse(localStorage.getItem('user'))['token'];
 							customAxios.defaults.headers.common['Authorization'] = authToken;
 
+							// apply application setting
+							localStorage.setItem('setting', JSON.stringify(response.data.setting));
+							this.$vuetify.theme.dark = JSON.parse(localStorage.getItem('setting')).darkMode;
+							
 							router.push({name: 'Dashboard'});
 						}
 					}).
