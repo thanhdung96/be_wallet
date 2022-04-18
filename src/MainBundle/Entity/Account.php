@@ -57,6 +57,55 @@ class Account implements UserInterface
     private $password;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="first_name", type="string", length=255, nullable=true)
+     */
+    private $firstName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="last_name", type="string", length=255, nullable=true)
+     */
+    private $lastName;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="addres", type="string", length=512, nullable=true)
+     */
+    private $address;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="city", type="string", length=512, nullable=true)
+     */
+    private $city;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="country", type="string", length=256, nullable=true)
+     */
+    private $country;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="postal", type="integer",  nullable=true)
+     */
+    private $postal;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="about", type="text",  nullable=true)
+     */
+    private $about;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=false)
@@ -71,14 +120,13 @@ class Account implements UserInterface
     private $modified;
 
     /**
-     * @var \Currency
-     *
-     * @ORM\ManyToOne(targetEntity="Currency")
+     * @var \AccountSetting
+     * @ORM\OneToOne(targetEntity="AccountSetting")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="currency_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="setting_id", referencedColumnName="id")
      * })
      */
-    private $currency;
+    private $setting;
 
     public function getId(): ?int
     {
@@ -222,19 +270,25 @@ class Account implements UserInterface
     }
 
     /**
-     * @return \Currency
-     */
-    public function getCurrency(): ?Currency
-    {
-        return $this->currency;
+     * Get })
+     *
+     * @return  \AccountSetting
+     */ 
+    public function getSetting(){
+        return is_null($this->setting) ? new AccountSetting() : $this->setting;
     }
 
     /**
-     * @param \Currency $currency
-     */
-    public function setCurrency(?Currency $currency): void
-    {
-        $this->currency = $currency;
+     * Set })
+     *
+     * @param  \AccountSetting  $setting  })
+     *
+     * @return  self
+     */ 
+    public function setSetting(\AccountSetting $setting){
+        $this->setting = $setting;
+
+        return $this;
     }
 
     /**
@@ -264,6 +318,7 @@ class Account implements UserInterface
         $this->modified = $currentDateTime;
         $this->ordering = 0;
         $this->roles[] = 'ROLE_USER';
+        $this->setting = new AccountSetting();
     }
 
     /**
@@ -277,5 +332,173 @@ class Account implements UserInterface
         if(is_null($this->getCreated())){
             $this->setCreated($currentTimestamp);
         }
+    }
+
+    /**
+     * Get the value of firstName
+     *
+     * @return  string
+     */ 
+    public function getFirstName()
+    {
+        return $this->firstName;
+    }
+
+    /**
+     * Set the value of firstName
+     *
+     * @param  string  $firstName
+     *
+     * @return  self
+     */ 
+    public function setFirstName(string $firstName)
+    {
+        $this->firstName = $firstName;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of lastName
+     *
+     * @return  string
+     */ 
+    public function getLastName()
+    {
+        return $this->lastName;
+    }
+
+    /**
+     * Set the value of lastName
+     *
+     * @param  string  $lastName
+     *
+     * @return  self
+     */ 
+    public function setLastName(string $lastName)
+    {
+        $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of address
+     *
+     * @return  string
+     */ 
+    public function getAddress()
+    {
+        return $this->address;
+    }
+
+    /**
+     * Set the value of address
+     *
+     * @param  string  $address
+     *
+     * @return  self
+     */ 
+    public function setAddress(string $address)
+    {
+        $this->address = $address;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of city
+     *
+     * @return  string
+     */ 
+    public function getCity()
+    {
+        return $this->city;
+    }
+
+    /**
+     * Set the value of city
+     *
+     * @param  string  $city
+     *
+     * @return  self
+     */ 
+    public function setCity(string $city)
+    {
+        $this->city = $city;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of country
+     *
+     * @return  string
+     */ 
+    public function getCountry()
+    {
+        return $this->country;
+    }
+
+    /**
+     * Set the value of country
+     *
+     * @param  string  $country
+     *
+     * @return  self
+     */ 
+    public function setCountry(string $country)
+    {
+        $this->country = $country;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of postal
+     *
+     * @return  string
+     */ 
+    public function getPostal()
+    {
+        return $this->postal;
+    }
+
+    /**
+     * Set the value of postal
+     *
+     * @param  string  $postal
+     *
+     * @return  self
+     */ 
+    public function setPostal(string $postal)
+    {
+        $this->postal = $postal;
+
+        return $this;
+    }
+
+    /**
+     * Get the value of about
+     *
+     * @return  string
+     */ 
+    public function getAbout()
+    {
+        return $this->about;
+    }
+
+    /**
+     * Set the value of about
+     *
+     * @param  string  $about
+     *
+     * @return  self
+     */ 
+    public function setAbout(string $about)
+    {
+        $this->about = $about;
+
+        return $this;
     }
 }

@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\MainBundle\Enums;
 
 
