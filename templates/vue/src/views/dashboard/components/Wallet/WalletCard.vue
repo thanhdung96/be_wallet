@@ -107,6 +107,10 @@ export default {
 				this.updateInfo();
 			}
 		},
+
+		'wallet.colour': function(newVal){
+			this.$emit('colorChangeEmit', newVal);
+		}
 	},
 
 	methods: {
