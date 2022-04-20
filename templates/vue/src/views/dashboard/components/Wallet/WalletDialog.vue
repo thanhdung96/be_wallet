@@ -1,7 +1,7 @@
 <template>
 	<v-dialog v-model="show" max-width="500px">
 		<v-card class="elevation-12">
-			<v-toolbar dark>
+			<v-toolbar dark :color="decoration.modalColor">
 				<v-toolbar-title>
 					{{ decoration.modalTitle }}
 				</v-toolbar-title>
@@ -9,6 +9,7 @@
 			<v-card-text>
 				<UserWalletCard
 					:wallet-id="walletId"
+					@colorChangeEmit="onColorChange($event)"
 				/>
 			</v-card-text>
 		</v-card>
@@ -35,6 +36,7 @@ export default {
 		return {
 			decoration: {
 				modalTitle: null,
+				modalColor: '#4caf50',
 			}
 		}
 	},
@@ -44,6 +46,12 @@ export default {
 			this.decoration.modalTitle = "Update wallet";
 		} else {
 			this.decoration.modalTitle = "New wallet";
+		}
+	},
+
+	methods: {
+		onColorChange(dataObject) {
+			this.decoration.modalColor = dataObject;
 		}
 	},
 
