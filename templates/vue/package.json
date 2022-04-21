@@ -13,6 +13,7 @@
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
+    "@mdi/font": "^6.6.96",
     "axios": "^0.26.1",
     "core-js": "^3.6.2",
     "sweetalert": "^2.1.2",
@@ -43,7 +44,6 @@
     "vue-cli-plugin-i18n": "^0.6.0",
     "vue-cli-plugin-vuetify": "^2.0.3",
     "vue-template-compiler": "^2.6.11",
-    "vue-world-map": "^0.1.1",
     "vuetify-loader": "^1.4.3"
   }
 }

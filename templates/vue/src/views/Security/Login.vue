@@ -58,7 +58,7 @@ export default {
 	name: "UserLogin",
 
 	props: {
-		username: null,
+		username: String,
 	},
 
 	data () {
