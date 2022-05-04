@@ -2,13 +2,12 @@
 
 namespace App\MainBundle\Controller;
 
-use \DateTime;
 use App\MainBundle\Entity\Trans;
-use App\MainBundle\Enums\TransferTypes;
 use App\MainBundle\Form\TransType;
 use App\MainBundle\Repository\CategoryRepository;
 use App\MainBundle\Repository\TransRepository;
 use App\MainBundle\Repository\WalletRepository;
+use App\MainBundle\Traits\ApplyTransTrait;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,6 +18,8 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class TransController extends AbstractController
 {
+    use ApplyTransTrait;
+    
     /**
      * @var WalletRepository
      */
@@ -194,104 +195,5 @@ class TransController extends AbstractController
         } else {
             return $this->redirectToRoute('trans_index', [], Response::HTTP_SEE_OTHER);
         }
-    }
-
-    private function undoTransaction(Trans $trans){
-        $fromWallet = $trans->getWallet();
-        $toWallet = null;
-
-        if($trans->getType() == TransferTypes::REVENUE){
-            $fromWallet->setAmount(
-                $fromWallet->getAmount() - $trans->getAmount()
-            );
-        } else if($trans->getType() == TransferTypes::EXPENSE){
-            $fromWallet->setAmount(
-                $fromWallet->getAmount() + $trans->getAmount()
-            );
-        } else if($trans->getType() == TransferTypes::TRANSFER){
-            $toWallet = $trans->getTransferWallet();
-            $fee = $trans->getFee();
-
-            $fromWallet->setAmount(
-                $fromWallet->getAmount() + $trans->getAmount() + $fee
-            );
-            $toWallet->setAmount(
-                $toWallet->getAmount() - $trans->getAmount()
-            );
-        }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($fromWallet);
-        if(!is_null($toWallet)){
-            $entityManager->persist($toWallet);
-        }
-        $entityManager->flush();
-    }
-
-    private function applyTransaction(Trans $trans){
-        $fromWallet = $trans->getWallet();
-        $toWallet = null;
-
-        if($trans->getType() == TransferTypes::REVENUE){
-            $fromWallet->setAmount(
-                $fromWallet->getAmount() + $trans->getAmount()
-            );
-        } else if($trans->getType() == TransferTypes::EXPENSE){
-            $fromWallet->setAmount(
-                $fromWallet->getAmount() - $trans->getAmount()
-            );
-        } else if($trans->getType() == TransferTypes::TRANSFER){
-            $toWallet = $trans->getTransferWallet();
-            $fee = $trans->getFee();
-
-            $fromWallet->setAmount(
-                $fromWallet->getAmount() - $trans->getAmount() - $fee
-            );
-            $toWallet->setAmount(
-                $toWallet->getAmount() + $trans->getAmount()
-            );
-        }
-
-        $entityManager = $this->getDoctrine()->getManager();
-        $entityManager->persist($fromWallet);
-        if(!is_null($toWallet)){
-            $entityManager->persist($toWallet);
-        }
-        $entityManager->flush();
-    }
-
-    private function convertToTransEntity(array $data): ?Trans{
-        $trans = new Trans();
-        $currentUser = $this->getUser();
-
-        $trans->setId($data['id']);
-        $trans->setType($data['type']);
-        $trans->setWallet($this->walletRepository->findOneBy([
-            'id' => $data['wallet'],
-            'active' => true,
-            'account' => $currentUser
-        ]));
-        if($trans->getType() == TransferTypes::TRANSFER){
-            $trans->setTransferWallet($this->walletRepository->findOneBy([
-                'id' => $data['transferWallet'],
-                'active' => true,
-                'account' => $currentUser
-            ]));
-            if(isset($data['withFee'])){
-                $trans->setFee((int)$data['fee']);
-            }
-        }
-        $trans->setAmount((int)$data['amount']);
-        $trans->setNote($data['note']);
-        $trans->setCategory($this->categoryRepository->findOneBy([
-            'id' => $data['category'],
-            'active' => true,
-            'account' => $currentUser
-        ]));
-        $dateTime = DateTime::createFromFormat('d-m-Y H:i', $data['dateTime']);
-        $trans->setDateTime($dateTime);
-        $trans->setAccount($currentUser);
-
-        return $trans;
     }
 }

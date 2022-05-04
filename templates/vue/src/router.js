@@ -25,6 +25,12 @@ export const router = new Router({
         },
 		// Category
         {
+          name: 'Transaction',
+          path: 'transaction',
+          component: () => import('@/views/dashboard/pages/Transaction'),
+        },
+		// Category
+        {
           name: 'Category',
           path: 'category',
           component: () => import('@/views/dashboard/pages/Category'),
