@@ -47,6 +47,11 @@
 			 </v-col>
 		</form>
 	   </v-card-text>
+		<v-progress-linear
+			indeterminate
+			color="cyan"
+			:active="isLoading"
+		></v-progress-linear>
    </v-card>
 </template>
 
@@ -65,11 +70,15 @@ export default {
 		return {
 			password: null,
 			errorMessage: null,
+			isLoading: false,
 		}
 	},
 
 	methods: {
 		login(event) {
+			// toggle loading bar
+			this.isLoading = true;
+
 			if(event){
 				let data = {
 					email: this.username,
@@ -91,9 +100,11 @@ export default {
 							router.push({name: 'Dashboard'});
 						}
 					}).
-					catch(
-						error => this.errorMessage = error.response.data.message
-					);
+					catch((error) => {
+						this.errorMessage = error.response.data.message;
+						// toggle loading bar
+						this.isLoading = false;
+					});
 			}
 		},
 

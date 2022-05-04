@@ -102,11 +102,6 @@ class AuthenticationController extends AbstractController {
 		$account->setName($data->username);
 		$account->setBalance(0);
 		$account->setPassword($encoder->encodePassword($account, $data->password));
-		$account->setCurrency(
-			$this->currencyRepository->findOneBy([
-				'id' => $data->defaultCurrency
-			])
-		);
 
 		$entityManager = $this->getDoctrine()->getManager();
 		$entityManager->persist($account);

@@ -77,6 +77,11 @@ export default {
       },
       {
         icon: "mdi-view-dashboard",
+        title: "Transaction",
+        to: "/user/transaction",
+      },
+      {
+        icon: "mdi-view-dashboard",
         title: "Category",
         to: "/user/category",
       },
