@@ -8,24 +8,25 @@
 
 {% block body %}
     {{ form_start(form, {'attr': {'class': 'form'}}) }}
+    <input type="hidden" name="trans[id]" id="transId" value="{{ tran.id }}">
     <div class="row">
         <div class="col-lg-6">
             <div class="form-group">
                 <label>Type</label>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="trans[type]" id="typeRevenue" value="{{ constant('App\\Enums\\TransferTypes::REVENUE') }}">
+                    <input class="form-check-input" type="radio" name="trans[type]" id="typeRevenue" value="{{ constant('App\\\MainBundle\\\Enums\\TransferTypes::REVENUE') }}">
                     <label class="form-check-label" for="typeRevenue">
                         Revenue
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="trans[type]" id="typeExpense" value="{{ constant('App\\Enums\\TransferTypes::EXPENSE') }}">
+                    <input class="form-check-input" type="radio" name="trans[type]" id="typeExpense" value="{{ constant('App\\\MainBundle\\\Enums\\TransferTypes::EXPENSE') }}">
                     <label class="form-check-label" for="typeExpense">
                         Expense
                     </label>
                 </div>
                 <div class="form-check">
-                    <input class="form-check-input" type="radio" name="trans[type]" id="typeTransfer" value="{{ constant('App\\Enums\\TransferTypes::TRANSFER') }}" checked>
+                    <input class="form-check-input" type="radio" name="trans[type]" id="typeTransfer" value="{{ constant('App\\\MainBundle\\\Enums\\TransferTypes::TRANSFER') }}" checked>
                     <label class="form-check-label" for="typeTransfer">
                         Transfer
                     </label>
@@ -111,7 +112,7 @@
                 <select class="form-control" id="trans_to_wallet" name="trans[category]">
                     <optgroup label="Revenue">
                         {% for category in categories %}
-                            {% if category.type == constant('App\\Enums\\TransferTypes::REVENUE') %}
+                            {% if category.type == constant('App\\\MainBundle\\\Enums\\TransferTypes::REVENUE') %}
                                 <option value="{{ category.id }}" data-trans-type="{{ category.type }}">
                                     {{ category.name }}
                                 </option>
@@ -120,7 +121,7 @@
                     </optgroup>
                     <optgroup label="Expense">
                         {% for category in categories %}
-                            {% if category.type == constant('App\\Enums\\TransferTypes::EXPENSE') %}
+                            {% if category.type == constant('App\\\MainBundle\\\Enums\\TransferTypes::EXPENSE') %}
                                 <option value="{{ category.id }}" data-trans-type="{{ category.type }}">
                                     {{ category.name }}
                                 </option>
