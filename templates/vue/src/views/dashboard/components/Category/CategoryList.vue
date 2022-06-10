@@ -2,7 +2,7 @@
 	<v-container fluid>
 		<v-card-title>
 			<v-row no-gutter>
-				<v-col md="10">
+				<v-col md="11">
 					<v-text-field
 						v-model="searchQuery"
 						append-icon="mdi-magnify"
@@ -11,7 +11,7 @@
 						hide-details
 					></v-text-field>
 				</v-col>
-				<v-col md="2">
+				<v-col md="1">
 					<v-btn
 						color="accent"
 						@click="newCategory"
@@ -25,14 +25,17 @@
 		</v-card-title>
 		<v-row>
 			<v-col>
-				<v-data-table
-					:headers="headers"
-					:items="categories"
-					:search="searchQuery"
-					:group-by="groupBy"
-					:show-group-by="showGroupBy"
-					@click:row="rowClicked"
-				></v-data-table>
+				<MaterialCard
+					icon='mdi-label-multiple'
+					title='Categories'
+				>
+					<v-data-table
+						:headers="headers"
+						:items="categories"
+						:search="searchQuery"
+						@click:row="rowClicked"
+					></v-data-table>
+				</MaterialCard>
 			</v-col>
 		</v-row>
 	</v-container>
@@ -41,12 +44,14 @@
 <script>
 import { customAxios } from '@/axios'
 import CategoryDialog from '@/views/dashboard/components/Category/CategoryDialog'
+import MaterialCard from '@/components/base/MaterialCard'
 
 export default {
 	name: "UserCategory",
 
 	components: {
 		CategoryDialog,
+		MaterialCard
 	},
 
 	data() {
@@ -56,8 +61,6 @@ export default {
 				{ text: "Type", value: "type" }
 			],
 			searchQuery: null,
-			groupBy: 'type',
-			showGroupBy: true,
 			categories: [],
 			// show dialog flag
 			showDialog: false,
