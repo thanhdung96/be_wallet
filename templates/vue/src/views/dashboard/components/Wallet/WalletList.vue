@@ -3,7 +3,7 @@
 		<v-container fluid>
 			<v-card-title>
 				<v-row no-gutter>
-					<v-col md="10">
+					<v-col md="11">
 						<v-text-field
 							v-model="searchQuery"
 							append-icon="mdi-magnify"
@@ -12,7 +12,7 @@
 							hide-details
 						></v-text-field>
 					</v-col>
-					<v-col md="2">
+					<v-col md="1">
 						<v-btn
 							color="accent"
 							@click="newWallet"
@@ -26,12 +26,18 @@
 			</v-card-title>
 			<v-row>
 				<v-col>
-					<v-data-table
-						:headers="headers"
-						:items="wallets"
-						:search="searchQuery"
-						@click:row="rowClicked"
-					></v-data-table>
+					<MaterialCard
+						icon='mdi-wallet'
+						title='Wallets'
+					>
+						<v-data-table
+							:headers="headers"
+							:items="wallets"
+							:search="searchQuery"
+							@click:row="rowClicked"
+							
+						></v-data-table>
+					</MaterialCard>
 				</v-col>
 			</v-row>
 		</v-container>
@@ -40,9 +46,14 @@
 
 <script>
 import { customAxios } from '@/axios';
+import MaterialCard from '@/components/base/MaterialCard'
 
 export default {
 	name: 'WalletList',
+
+	components: {
+		MaterialCard
+	},
 
 	props: {
 		dialogShow: Boolean,
