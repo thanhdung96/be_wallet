@@ -71,22 +71,22 @@ export default {
   data: () => ({
     items: [
       {
-        icon: "mdi-view-dashboard",
+        icon: "mdi-desktop-mac-dashboard",
         title: "dashboard",
         to: "/user/home",
       },
       {
-        icon: "mdi-view-dashboard",
+        icon: "mdi-arrow-collapse-vertical",
         title: "Transaction",
         to: "/user/transaction",
       },
       {
-        icon: "mdi-view-dashboard",
+        icon: "mdi-label-multiple",
         title: "Category",
         to: "/user/category",
       },
       {
-        icon: "mdi-view-dashboard",
+        icon: "mdi-wallet",
         title: "Wallet",
         to: "/user/wallet",
       },
