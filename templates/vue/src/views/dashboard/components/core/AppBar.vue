@@ -47,17 +47,7 @@
           v-bind="attrs"
           v-on="on"
         >
-          <v-badge
-            color="red"
-            overlap
-            bordered
-          >
-            <template v-slot:badge>
-              <span>5</span>
-            </template>
-
-            <v-icon>mdi-account</v-icon>
-          </v-badge>
+        <v-icon>mdi-account</v-icon>
         </v-btn>
       </template>
 
