@@ -32,13 +32,19 @@ export default {
 		transactionId: Number
 	},
 
-	watch: {
-		transactionId: function(newVal){
-			if(newVal == -1) {
-				this.decoration.modalTitle = "New Transaction";
-			} else {
-				this.decoration.modalTitle = "Update Transaction";
-			}
+	beforeMount() {
+		if(this.isUpdate == true){
+			this.decoration.modalTitle = "Update Transaction";
+		} else {
+			this.decoration.modalTitle = "New Transaction";
+		}
+	},
+
+	beforeUpdate() {
+		if(this.isUpdate == true){
+			this.decoration.modalTitle = "Update Transaction";
+		} else {
+			this.decoration.modalTitle = "New Transaction";
 		}
 	},
 
