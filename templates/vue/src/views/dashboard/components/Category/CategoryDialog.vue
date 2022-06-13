@@ -33,13 +33,11 @@ export default {
 		categoryId: Number
 	},
 
-	watch: {
-		categoryId: function(newVal){
-			if(newVal == -1) {
-				this.decoration.modalTitle = "New Category";
-			} else {
-				this.decoration.modalTitle = "Update Category";
-			}
+	beforeUpdate() {
+		if(this.isUpdate == true){
+			this.decoration.modalTitle = "Update Category";
+		} else {
+			this.decoration.modalTitle = "New Category";
 		}
 	},
 
