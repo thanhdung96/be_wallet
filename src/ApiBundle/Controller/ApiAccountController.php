@@ -2,13 +2,13 @@
 
 namespace App\ApiBundle\Controller;
 
-use App\MainBundle\Entity\Account;
 use App\MainBundle\Repository\AccountRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Serializer\Encoder\JsonEncoder;
 use Symfony\Component\Serializer\Normalizer\AbstractNormalizer;
 use Symfony\Component\Serializer\Normalizer\ObjectNormalizer;
@@ -100,6 +100,42 @@ class ApiAccountController extends AbstractController {
 				'message' => 'Profile saved successfully'
 			],
 			Response::HTTP_OK
+		);
+	}
+
+	/**
+	 * @Route("/password/change", name="api_pwd_change_account", methods={"POST"})
+	 */
+	public function changePassword(Request $request, UserPasswordEncoderInterface $encoder): JsonResponse{
+		$data = json_decode($request->getContent());
+		$currentUser = $this->getUser();
+
+		// verifying old password
+		if(!$encoder->isPasswordValid($currentUser, $data->oldPassword)){
+			return new JsonResponse(
+				[
+					'message' => 'Incorrect password',
+				],
+				Response::HTTP_UNAUTHORIZED
+			);
+		}
+
+		$currentUser->setPassword(
+			$encoder->encodePassword(
+				$currentUser,
+				$data->newPassword
+			)
+		);
+
+		$entityManager = $this->getDoctrine()->getManager();
+		$entityManager->persist($currentUser);
+		$entityManager->flush();
+
+		return new JsonResponse(
+			[
+				'message' => 'Password updated',
+			],
+			Response::HTTP_ACCEPTED
 		);
 	}
 }

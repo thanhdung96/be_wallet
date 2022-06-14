@@ -1,51 +1,57 @@
 <template>
 	<base-material-card>
-		<v-card-text class="text-center">
-			<div class="display-2 font-weight-light">Edit Your Setting</div>
+		<template v-slot:heading>
+			<div class="display-2 font-weight-light">
+				Customise your settings
+			</div>
+		</template>
 
-			<v-form @submit.prevent="saveSetting">
-				<v-container class="py-0">
-					<v-row>
-						<v-col cols="12">
-							<v-switch
-								v-model="setting.darkMode"
-								color="primary"
-								label="Dark Mode"
-							></v-switch>
-						</v-col>
+		<v-form @submit.prevent="saveSetting">
+			<v-container class="py-0">
+				<v-row>
+					<v-col cols="12">
+						<v-switch
+							v-model="setting.darkMode"
+							color="primary"
+							label="Dark Mode"
+						></v-switch>
+					</v-col>
 
-						<v-col cols="12">
-							<v-select
-								v-model="setting.language"
-								:items="languages"
-								item-text="languageName"
-								item-value="value"
-								label="Display Language"
-							></v-select>
-						</v-col>
+					<v-col cols="12">
+						<v-select
+							v-model="setting.language"
+							:items="languages"
+							item-text="languageName"
+							item-value="value"
+							label="Display Language"
+						></v-select>
+					</v-col>
 
-						<v-col cols="12">
-							<v-select
-								v-model="setting.currency"
-								:items="currencies"
-								item-text="currencyName"
-								item-value="id"
-								label="Default currency"
-							></v-select>
-						</v-col>
-					</v-row>
-				</v-container>
-
-				<v-btn
-					color="success"
-					class="mr-0"
-					type="submit"
-					rounded
-				>
-					Save Setting
-				</v-btn>
-			</v-form>
-		</v-card-text>
+					<v-col cols="12">
+						<v-select
+							v-model="setting.currency"
+							:items="currencies"
+							item-text="currencyName"
+							item-value="id"
+							label="Default currency"
+						></v-select>
+					</v-col>
+				</v-row>
+				
+				<v-row cols="12" class="text-right">
+					<v-col>
+						<v-btn
+							color="success"
+							class="mr-0"
+							type="submit"
+							rounded
+						>
+							Save Setting
+						</v-btn>
+					</v-col>
+				</v-row>
+			</v-container>
+		</v-form>
 	</base-material-card>
 </template>
 
