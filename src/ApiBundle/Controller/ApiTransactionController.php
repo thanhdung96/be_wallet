@@ -2,6 +2,7 @@
 
 namespace App\ApiBundle\Controller;
 
+use App\MainBundle\Enums\TransferTypes;
 use App\MainBundle\Repository\CategoryRepository;
 use App\MainBundle\Repository\TransRepository;
 use App\MainBundle\Repository\WalletRepository;
@@ -97,6 +98,37 @@ class ApiTransactionController extends AbstractController{
 			],
 			Response::HTTP_OK
 		);
+	}
+	
+	/**
+	 * @Route("/monthly", name="api_trans_current_month", methods={"POST"})
+	 */
+	public function getAllTransMonthly(): JsonResponse{
+		$lstTrans = $this->transRepository->findByMonthAndYear(
+			[
+				'account' => $this->getUser(),
+				'types' => [
+					TransferTypes::EXPENSE,
+					TransferTypes::REVENUE
+				],
+			]
+		);
+
+		if(empty($lstTrans)) {
+			return new JsonResponse(
+				[
+					'message' => 'Cannot find any transaction.'
+				],
+				Response::HTTP_OK
+			);
+		} else {
+			return new JsonResponse(
+				[
+					'transactions' => $this->serializeTransactionToJson($lstTrans)
+				],
+				Response::HTTP_OK
+			);
+		}
 	}
 
 	/**

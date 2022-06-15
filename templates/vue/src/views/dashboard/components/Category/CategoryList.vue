@@ -33,13 +33,13 @@
 					<v-tabs
 						v-model="tab"
 						background-color="transparent"
-						color="basil"
 						grow
 					>
 						<v-tab
-							v-for="tab_name in decoration.tabs"
+							v-for="tabHandle in tabs"
 						>
-							{{ tab_name }}
+							<v-icon>{{ tabHandle.icon }} </v-icon>
+							{{ tabHandle.name }}
 						</v-tab>
 					</v-tabs>
 
@@ -73,6 +73,8 @@
 import { customAxios } from '@/axios'
 import CategoryDialog from '@/views/dashboard/components/Category/CategoryDialog'
 import MaterialCard from '@/components/base/MaterialCard'
+import TransferTypes from '@/enums/TransferTypes'
+import moment from 'moment'
 
 export default {
 	name: "UserCategory",
@@ -97,12 +99,16 @@ export default {
 			isUpdate: true,
 			// tabbing decoration
 			tab: null,
-			decoration: {
-				tabs: [
-					'Revenue',
-					'Expense'
-				],
-			}
+			tabs: [
+				{
+					name: 'Revenue',
+					icon: 'mdi-tray-arrow-down'
+				},
+				{
+					name: 'Expense',
+					icon: 'mdi-tray-arrow-up'
+				},
+			],
 		}
 	},
 
@@ -112,9 +118,9 @@ export default {
 			.post('/api/category/')
 			.then((response) => {
 				response.data.categories.map(function (value, key){
-					if(value.type == 1){
+					if(value.type == TransferTypes.EXPENSE){
 						value.type = 'Expense';
-					} else if(value.type == 0){
+					} else if(value.type == TransferTypes.REVENUE){
 						value.type = 'Revenue';
 					}
 					rootComponent.categories.push(value);
