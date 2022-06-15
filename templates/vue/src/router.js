@@ -15,7 +15,7 @@ export const router = new Router({
         {
           name: 'Dashboard',
           path: 'home',
-          component: () => import('@/views/dashboard/Dashboard'),
+          component: () => import('@/views/dashboard/pages/Dashboard'),
         },
         // Pages
         {
