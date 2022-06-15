@@ -67,13 +67,22 @@ class ApiWalletController extends AbstractController{
 			'account' => $this->getUser(),
 			'active' => true
 		]);
-		
-		return new JsonResponse(
-			[
-				'wallets' => $this->serializeWalletToJson($lstWallets)
-			],
-			Response::HTTP_OK
-		);
+
+		if(empty($lstWallets)) {
+			return new JsonResponse(
+				[
+					'message' => 'Cannot find any wallet.'
+				],
+				Response::HTTP_NOT_FOUND
+			);
+		} else {
+			return new JsonResponse(
+				[
+					'wallets' => $this->serializeWalletToJson($lstWallets)
+				],
+				Response::HTTP_OK
+			);
+		}
 	}
 
 	/**
