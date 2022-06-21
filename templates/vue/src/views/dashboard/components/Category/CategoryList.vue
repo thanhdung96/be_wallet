@@ -23,18 +23,46 @@
 				</v-col>
 			</v-row>
 		</v-card-title>
+		
 		<v-row>
 			<v-col>
 				<MaterialCard
 					icon='mdi-label-multiple'
 					title='Categories'
 				>
-					<v-data-table
-						:headers="headers"
-						:items="categories"
-						:search="searchQuery"
-						@click:row="rowClicked"
-					></v-data-table>
+					<v-tabs
+						v-model="tab"
+						background-color="transparent"
+						color="basil"
+						grow
+					>
+						<v-tab
+							v-for="tab_name in decoration.tabs"
+						>
+							{{ tab_name }}
+						</v-tab>
+					</v-tabs>
+
+					<v-tabs-items
+						v-model="tab"
+					>
+						<v-tab-item>
+							<v-data-table
+								:headers="headers"
+								:items="revenueCategories"
+								:search="searchQuery"
+								@click:row="rowClicked"
+							></v-data-table>
+						</v-tab-item>
+						<v-tab-item>
+							<v-data-table
+								:headers="headers"
+								:items="expenseCategories"
+								:search="searchQuery"
+								@click:row="rowClicked"
+							></v-data-table>
+						</v-tab-item>
+					</v-tabs-items>
 				</MaterialCard>
 			</v-col>
 		</v-row>
@@ -67,6 +95,14 @@ export default {
 			//which category is selected to display in modal
 			selectedCategoryId: null,
 			isUpdate: true,
+			// tabbing decoration
+			tab: null,
+			decoration: {
+				tabs: [
+					'Revenue',
+					'Expense'
+				],
+			}
 		}
 	},
 
@@ -84,6 +120,32 @@ export default {
 					rootComponent.categories.push(value);
 				})
 			});
+	},
+
+	computed: {
+		revenueCategories() {
+			let categories = [];
+
+			this.categories.forEach(category => {
+				if(category.type === 'Revenue'){
+					categories.push(category);
+				}
+			});
+
+			return categories;
+		},
+
+		expenseCategories() {
+			let categories = [];
+
+			this.categories.forEach(category => {
+				if(category.type === 'Expense'){
+					categories.push(category);
+				}
+			});
+
+			return categories;
+		}
 	},
 
 	methods: {
