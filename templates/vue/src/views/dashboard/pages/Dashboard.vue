@@ -7,8 +7,6 @@
 		>
 			<v-row>
 				<v-col 
-			<v-col 
-				<v-col 
 					v-for="dashboardStat in dashboardStats"
 					:key="dashboardStat.title"
 				>
