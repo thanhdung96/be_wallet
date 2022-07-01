@@ -78,6 +78,8 @@ export const router = new Router({
 });
 
 router.beforeEach((to, from, next) => {
+	document.title = `BeWallet - ${ to.name }`
+
 	const publicPages = ['/auth/login', '/auth/register', '/'];
 	const authRequired = !publicPages.includes(to.path);
 	const loggedIn = localStorage.getItem('user');
