@@ -11,13 +11,14 @@ jobs:
     docker:
       - image: node
 
-    working_directory: templates/vue
+    working_directory: ~/be_wallet/templates/vue
     # Add steps to the job
     # See: https://circleci.com/docs/2.0/configuration-reference/#steps
     steps:
-      - checkout
+      - checkout:
+          path: ~/be_wallet
       - restore_cache:
-          key: node-{{ checksum "templates/vue/package.json" }}
+          key: node-{{ checksum "package.json" }}
       - run:
           name: "Install npm dependencies"
           command: "npm install"
@@ -26,12 +27,19 @@ jobs:
           command: "yarn electron:build"
       - save_cache:
           paths:
-            - "templates/vue/node_modules"
-          key: node-{{ checksum "templates/vue/package.json" }}
+            - "node_modules"
+          key: node-{{ checksum "package.json" }}
+      - store_artifacts:
+          path: ./dist_electron/bewallet_desktop-*.AppImage
 
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
   build-linux-workflow:
     jobs:
-      - build-linux
+      - build-linux:
+        filters:
+          branches:
+            only:
+              - master
+              - develop
