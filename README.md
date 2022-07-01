@@ -1,3 +1,5 @@
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/thanhdung96/be_wallet/tree/develop.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/thanhdung96/be_wallet/tree/develop)
+
 # Be-wallet
 
 Manage your money with ease and efficiency with your prefered device.
