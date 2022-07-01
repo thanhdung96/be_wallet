@@ -191,7 +191,7 @@ export default {
 			monthlyTransactions.forEach((transaction) => {
 				data.series
 					[transaction.type]
-					[parseInt(transaction.dateTime.split("-")[2])]
+					[parseInt(transaction.dateTime.split("-")[2]) - 1]
 					+= transaction.amount;
 			});
 

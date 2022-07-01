@@ -114,21 +114,12 @@ class ApiTransactionController extends AbstractController{
 			]
 		);
 
-		if(empty($lstTrans)) {
-			return new JsonResponse(
-				[
-					'message' => 'Cannot find any transaction.'
-				],
-				Response::HTTP_OK
-			);
-		} else {
-			return new JsonResponse(
-				[
-					'transactions' => $this->serializeTransactionToJson($lstTrans)
-				],
-				Response::HTTP_OK
-			);
-		}
+		return new JsonResponse(
+			[
+				'transactions' => $this->serializeTransactionToJson($lstTrans)
+			],
+			Response::HTTP_OK
+		);
 	}
 
 	/**
