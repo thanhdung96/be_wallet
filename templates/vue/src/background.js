@@ -25,6 +25,8 @@ async function createWindow() {
     }
   })
 
+  win.removeMenu()
+
   win.webContents.session.webRequest.onBeforeSendHeaders(
     (details, callback) => {
       callback({ requestHeaders: { Origin: '*', ...details.requestHeaders } });

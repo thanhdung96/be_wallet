@@ -1,6 +1,7 @@
 {
-  "name": "vuetify-material-dashboard",
-  "version": "2.1.0",
+  "name": "bewallet_desktop",
+  "version": "2.0.0",
+  "author": "thanhdung96",
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
