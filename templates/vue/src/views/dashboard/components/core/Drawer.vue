@@ -57,6 +57,7 @@
 <script>
 // Utilities
 import { mapState } from "vuex";
+import { router } from "@/router"
 
 export default {
   name: "DashboardCoreDrawer",
@@ -73,22 +74,22 @@ export default {
       {
         icon: "mdi-desktop-mac-dashboard",
         title: "dashboard",
-        to: "/user/home",
+        to: "Dashboard",
       },
       {
         icon: "mdi-arrow-collapse-vertical",
         title: "Transaction",
-        to: "/user/transaction",
+        to: "Transaction",
       },
       {
         icon: "mdi-label-multiple",
         title: "Category",
-        to: "/user/category",
+        to: "Category",
       },
       {
         icon: "mdi-wallet",
         title: "Wallet",
-        to: "/user/wallet",
+        to: "Wallet",
       },
     ],
   }),
@@ -104,6 +105,11 @@ export default {
       },
     },
     computedItems() {
+      // resolving route name to actual route
+      this.items.forEach(item => {
+        item.to = router.resolve(item.to).resolved.path;
+      });
+
       return this.items.map(this.mapItem);
     },
     profile() {
