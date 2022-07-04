@@ -21,7 +21,7 @@
       <v-list-item>
         <v-list-item-avatar class="align-self-center" color="white" contain>
           <v-img
-            src="https://demos.creative-tim.com/vuetify-material-dashboard/favicon.ico"
+            src="/favicon.ico"
             max-height="30"
           />
         </v-list-item-avatar>
