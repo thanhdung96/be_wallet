@@ -131,7 +131,6 @@ export default {
 	computed: {
 		revenueCategories() {
 			let categories = [];
-
 			this.categories.forEach(category => {
 				if(category.type === 'Revenue'){
 					categories.push(category);
