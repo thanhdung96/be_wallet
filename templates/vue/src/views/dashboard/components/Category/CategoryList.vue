@@ -137,7 +137,6 @@ export default {
 					categories.push(category);
 				}
 			});
-
 			return categories;
 		},
 
